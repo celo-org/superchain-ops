@@ -1,0 +1,15 @@
+l2chains = [
+    {name = "Alfajores", chainId = 17000}
+]
+
+templateName = "OPCMUpgradeV200"
+
+[opcmUpgrades]
+absolutePrestates = [
+    {absolutePrestate = "0x03b357b30095022ecbb44ef00d1de19df39cf69ee92a60683a6be2c6f8fe6a3e", chainId = 17000},
+]
+
+[addresses]
+OPCM = "0x83cccf6d865ea06d103dcc9cf10d56b17dd4e74e"
+# Deployed March 27, 2025: https://etherscan.io/tx/0x902ce895f70a72110d40c9a734a26380b2e27c370aae90721cdfa1ac972cfff8 
+StandardValidatorV200 = "0xecabaeaa1d58261f1579232520c5b460ca58a164" # TBD

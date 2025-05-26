@@ -10,6 +10,8 @@ if [[ "$TASK_PATH" == *"/eth/"* ]]; then
     echo "mainnet"
 elif [[ "$TASK_PATH" == *"/sep/"* ]]; then
     echo "sepolia"
+elif [[ "$TASK_PATH" == *"/holesky/"* ]]; then
+    echo "holesky"
 elif [[ "$TASK_PATH" == *"/oeth/"* ]]; then
     echo "opMainnet"
 else
