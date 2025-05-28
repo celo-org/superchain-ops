@@ -83,7 +83,9 @@ contract SuperchainAddressRegistry is StdChains {
     /// @param configPath the path to the TOML file containing the network configuration(s)
     constructor(string memory configPath) {
         require(
-            block.chainid == getChain("mainnet").chainId || block.chainid == getChain("sepolia").chainId,
+            block.chainid == getChain("mainnet").chainId || 
+            block.chainid == getChain("sepolia").chainId ||
+            block.chainid == getChain("holesky").chainId,
             string.concat("SuperchainAddressRegistry: Unsupported task chain ID ", vm.toString(block.chainid))
         );
 
@@ -115,6 +117,7 @@ contract SuperchainAddressRegistry is StdChains {
         string memory chainKey;
         if (block.chainid == getChain("mainnet").chainId) chainKey = ".eth";
         else if (block.chainid == getChain("sepolia").chainId) chainKey = ".sep";
+        else if (block.chainid == getChain("holesky").chainId) chainKey = ".holesky";
         else revert(string.concat("SuperchainAddressRegistry: Unknown task chain ID ", vm.toString(block.chainid)));
 
         _loadHardcodedAddresses(chainKey);

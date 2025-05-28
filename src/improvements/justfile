@@ -189,6 +189,9 @@ simulate-stack NETWORK="" TASK="" OWNER_ADDRESSES="[]":
         sep)
             ETH_RPC_URL=$(yq eval ".profile.\"${FOUNDRY_PROFILE}\".rpc_endpoints.sepolia" "${root_dir}/foundry.toml")
             ;;
+        holesky)
+            ETH_RPC_URL=$(yq eval ".profile.\"${FOUNDRY_PROFILE}\".rpc_endpoints.holesky" "${root_dir}/foundry.toml")
+            ;;
         eth)
             ETH_RPC_URL=$(yq eval ".profile.\"${FOUNDRY_PROFILE}\".rpc_endpoints.mainnet" "${root_dir}/foundry.toml")
             ;;
