@@ -1,5 +1,4 @@
 l2chains = [
-    # {name = "Alfajores", chainId = 44787},
     {name = "Baklava", chainId = 62320}
 ]
 
@@ -13,4 +12,4 @@ absolutePrestates = [
 [addresses]
 OPCM = "0xaf66cb99fb7f632394269b7d746cd4c37d736678"
 # Deployed March 27, 2025: https://etherscan.io/tx/0x902ce895f70a72110d40c9a734a26380b2e27c370aae90721cdfa1ac972cfff8 
-StandardValidatorV200 = "0xc44f288ca92ebed475b43977f4e7898d10e352cf"
+StandardValidatorV200 = "0xcd435dc2f6431ecd43732560a7682b9c7b8ba025"

@@ -1,17 +1,17 @@
-# 002-opcm-upgrade-v200: Mainnet OPCM v2.0.0: Unichain
+# 000-opcm-upgrade-v200: Holesky OPCM v2.0.0: Celo Baklava
 
-Status: [DRAFT](https://etherscan.io/tx/0x7e5e478cafbe30293645e6972a477f77dcfdc006c4cf1dd248a94e6386d04159)
+Status: [DRAFT]()
 
 ## Objective
 
-Executes [Upgrade 13](https://gov.optimism.io/t/upgrade-proposal-13-opcm-and-incident-response-improvements/9739) on Unichain Mainnet.
+Executes [Upgrade 13](https://gov.optimism.io/t/upgrade-proposal-13-opcm-and-incident-response-improvements/9739) on Celo Baklava.
 
 In summary, this task uses `op-contract/v2.0.0` [OPContractsManager](https://github.com/ethereum-optimism/optimism/blob/op-contracts/v2.0.0-rc.1/packages/contracts-bedrock/src/L1/OPContractsManager.sol) to upgrade 1 chain:
-1. Unichain Mainnet
+1. Celo Baklava
 
 ### Timing
 
-Expected to be executed on or around 2025-04-08.
+Expected to be executed on or around 2025-06-08.
 
 ## Transaction creation
 
@@ -33,13 +33,6 @@ Then follow the instructions in the [Validation](./VALIDATION.md) guide.
 When simulating, ensure the logs say `Using script <your_path_to_superchain_ops>/superchain-ops/src/improvements/template/OPCMUpgradeV200.sol`.
 Navigate to the correct task directory then run the simulate command.
 ```
-cd eth/002-opcm-upgrade-v200
-# Chain Governor Safe: 0xb0c4C487C5cf6d67807Bc2008c66fa7e2cE744EC (Unichain)
-SIMULATE_WITHOUT_LEDGER=1 just --dotenv-path $(pwd)/.env --justfile ../../../nested.just simulate chain-governor
-
-# Foundation Upgrade Safe: 0x847B5c174615B1B7fDF770882256e2D3E95b9D92
-SIMULATE_WITHOUT_LEDGER=1 just --dotenv-path $(pwd)/.env --justfile ../../../nested.just simulate foundation
-
-# Security Council Safe: 0xc2819DC788505Aac350142A7A707BF9D03E3Bd03
-SIMULATE_WITHOUT_LEDGER=1 just --dotenv-path $(pwd)/.env --justfile ../../../nested.just simulate council
+cd holesky/000-opcm-upgrade-v200
+./simulate-baklava.sh
 ```
