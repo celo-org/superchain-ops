@@ -1,0 +1,14 @@
+templateName = "OPCMUpgradeV300"
+
+[[l2chains]]
+chainId = 62320
+name = "Baklava"
+
+[[opcmUpgrades]]
+chainId = 62320
+absolutePrestate = "0x0371cfe29152b942fce31f95d76847b3d837eda9389b8d1624f4789655868a8f"
+expectedValidationErrors = "SYSCON-20,L1xDM-70,L1SB-70,MERC20F-20,L721B-70,PORTAL-50,PDDG-50,PDDG-DWETH-30,PDDG-DWETH-40,PDDG-ANCHORP-40,PLDG-50,PLDG-DWETH-40,PLDG-ANCHORP-40"
+
+[addresses]
+OPCM = "0x8484a2c0831e4503d6177497fc5b5a2d85698c57" # https://github.com/ethereum-optimism/superchain-registry/blob/b3d020de42abeebeb5786ea5508aa08d12bdf4cd/validation/standard/standard-versions-mainnet.toml#L22C56-L22C98
+StandardValidatorV300 = "0x8552dbc9c554ad4e3ddd9383d5acdb54418b4667" 
