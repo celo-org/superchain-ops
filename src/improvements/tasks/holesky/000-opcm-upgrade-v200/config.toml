@@ -10,7 +10,5 @@ absolutePrestates = [
 ]
 
 [addresses]
-# OPCM = "0xaf66cb99fb7f632394269b7d746cd4c37d736678"
-OPCM = "0x216e0Bd7F565A0bbb1d09F04bE39650Da2697339"
-# Deployed March 27, 2025: https://etherscan.io/tx/0x902ce895f70a72110d40c9a734a26380b2e27c370aae90721cdfa1ac972cfff8 
-StandardValidatorV200 = "0xcd435dc2f6431ecd43732560a7682b9c7b8ba025"
+OPCM = "0xa431a038dd6fe7a4f2689101f2c8e67c60dc6e33"
+StandardValidatorV200 = "0x75bd4ad701177720fb5feb368722f55ac7616dac"
