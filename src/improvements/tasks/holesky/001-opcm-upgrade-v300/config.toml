@@ -7,8 +7,8 @@ name = "Baklava"
 [[opcmUpgrades]]
 chainId = 62320
 absolutePrestate = "0x034b32d11f017711ce7122ac71d87b1c6cc73e10a0dbd957d8b27f6360acaf8f"
-expectedValidationErrors = "SYSCON-20,MERC20F-20,PDDG-DWETH-20,PDDG-DWETH-30,PDDG-ANCHORP-40,PLDG-DWETH-20,PLDG-ANCHORP-40"
+expectedValidationErrors = "SYSCON-20,PDDG-DWETH-30,PDDG-ANCHORP-40,PLDG-ANCHORP-40"
 
 [addresses]
-OPCM = "0x8484a2c0831e4503d6177497fc5b5a2d85698c57"
-StandardValidatorV300 = "0x54a7ff7d628de4dd96484ec7accff22431a42f6a" 
+OPCM = "0xdd07cb5e4b2e89a618f8d3a08c8ff753acfe1c68"
+StandardValidatorV300 = "0xd5317ddc5bc6348b12398ba7e67801d4c4d7e5c8" 
