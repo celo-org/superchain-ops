@@ -19,6 +19,7 @@ interface IFetcher {
     function addressManager() external view returns (address);
     function PORTAL() external view returns (address);
     function portal() external view returns (address);
+    function l1ERC721Bridge() external view returns (address);
     function l1ERC721BridgeProxy() external view returns (address);
     function optimismMintableERC20Factory() external view returns (address);
     function gameImpls(GameType _gameType) external view returns (address);
@@ -83,7 +84,9 @@ contract SuperchainAddressRegistry is StdChains {
     /// @param configPath the path to the TOML file containing the network configuration(s)
     constructor(string memory configPath) {
         require(
-            block.chainid == getChain("mainnet").chainId || block.chainid == getChain("sepolia").chainId,
+            block.chainid == getChain("mainnet").chainId || 
+            block.chainid == getChain("sepolia").chainId ||
+            block.chainid == getChain("holesky").chainId,
             string.concat("SuperchainAddressRegistry: Unsupported task chain ID ", vm.toString(block.chainid))
         );
 
@@ -115,6 +118,7 @@ contract SuperchainAddressRegistry is StdChains {
         string memory chainKey;
         if (block.chainid == getChain("mainnet").chainId) chainKey = ".eth";
         else if (block.chainid == getChain("sepolia").chainId) chainKey = ".sep";
+        else if (block.chainid == getChain("holesky").chainId) chainKey = ".holesky";
         else revert(string.concat("SuperchainAddressRegistry: Unknown task chain ID ", vm.toString(block.chainid)));
 
         _loadHardcodedAddresses(chainKey);
@@ -366,10 +370,9 @@ contract SuperchainAddressRegistry is StdChains {
 
     function getL1ERC721BridgeProxy(address systemConfigProxy, string memory chainAddressesContent, uint256 chainId)
         internal
-        view
         returns (address)
     {
-        try IFetcher(systemConfigProxy).l1ERC721BridgeProxy() returns (address l1ERC721BridgeProxy) {
+        try IFetcher(systemConfigProxy).l1ERC721Bridge() returns (address l1ERC721BridgeProxy) {
             return l1ERC721BridgeProxy;
         } catch {
             return parseContractAddress(chainAddressesContent, chainId, "L1ERC721BridgeProxy");

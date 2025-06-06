@@ -153,10 +153,18 @@ contract OPCMUpgradeV200 is OPCMTaskBase {
                 "PROXYA-10,DF-30,PDDG-DWETH-30,PDDG-ANCHORP-40,PDDG-120,PLDG-DWETH-30,PLDG-ANCHORP-40";
             string memory expectedErrors_130 =
                 "PROXYA-10,DF-30,PDDG-DWETH-30,PDDG-ANCHORP-40,PLDG-DWETH-30,PLDG-ANCHORP-40";
+
+            // Celo errors
+            // SYSCON-20 - gas limit on SystemConfigProxy is now 30M, but can be set by owner to 60M
+            // PDDG-DWETH-30 - PermissionedDelayedWeth owner is not l1PAOMultisig (SystemOwnerSafe) - it is set now to EOA (22eaf69162ae49605441229edbef7d9fc5f4f094)
+            // PDDG-ANCHORP-40 / PLDG-ANCHORP-40 - dispute game AnchorStateRegistry root validation is ignored for multiple chains above (including OP, Ink, Soneium)
+            string memory celoExpectedErrors_420 = "SYSCON-20,PDDG-DWETH-30,PDDG-ANCHORP-40,PLDG-ANCHORP-40";
+
             require(
                 reasons.eq(expectedErrors_11155420) || reasons.eq(expectedErrors_84532) || reasons.eq(expectedErrors_10)
                     || reasons.eq(expectedErrors_1868) || reasons.eq(expectedErrors_57073)
-                    || reasons.eq(expectedErrors_1301) || reasons.eq(expectedErrors_130),
+                    || reasons.eq(expectedErrors_1301) || reasons.eq(expectedErrors_130)
+                    || reasons.eq(celoExpectedErrors_420),
                 string.concat("Unexpected errors: ", reasons)
             );
         }
