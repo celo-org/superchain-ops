@@ -11,4 +11,4 @@ expectedValidationErrors = "SYSCON-20,PDDG-DWETH-30,PDDG-ANCHORP-40,PLDG-ANCHORP
 
 [addresses]
 OPCM = "0xdd07cb5e4b2e89a618f8d3a08c8ff753acfe1c68"
-StandardValidatorV300 = "0xd5317ddc5bc6348b12398ba7e67801d4c4d7e5c8" 
+StandardValidatorV300 = "0x9df52e41189e89485bb7aee1e5cc93874dd89712" 
