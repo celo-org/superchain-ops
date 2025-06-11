@@ -3,7 +3,8 @@
 	url = https://github.com/foundry-rs/forge-std
 [submodule "lib/safe-contracts"]
 	path = lib/safe-contracts
-	url = https://github.com/safe-global/safe-contracts
+	url = https://github.com/celo-org/safe-smart-account
+	branch = mc01/v1.3.0
 [submodule "lib/optimism"]
 	path = lib/optimism
 	url = https://github.com/celo-org/optimism
