@@ -1,6 +1,6 @@
-# 000-opcm-upgrade-v200: Holesky OPCM v2.0.0: Celo Baklava
+# 000-opcm-upgrade-v200-baklava: Holesky OPCM v2.0.0: Celo Baklava
 
-Status: [DRAFT]()
+Status: [EXECUTED]()
 
 ## Objective
 
@@ -11,7 +11,7 @@ In summary, this task uses `op-contract/v2.0.0` [OPContractsManager](https://git
 
 ### Timing
 
-Expected to be executed on or around 2025-06-08.
+Expected to be executed on or around 2025-06-11.
 
 ## Transaction creation
 
@@ -33,6 +33,6 @@ Then follow the instructions in the [Validation](./VALIDATION.md) guide.
 When simulating, ensure the logs say `Using script <your_path_to_superchain_ops>/superchain-ops/src/improvements/template/OPCMUpgradeV200.sol`.
 Navigate to the correct task directory then run the simulate command.
 ```
-cd holesky/000-opcm-upgrade-v200
-./simulate-baklava.sh
+cd holesky/000-opcm-upgrade-v200-baklava
+./simulate.sh
 ```

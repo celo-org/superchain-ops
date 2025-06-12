@@ -1,0 +1,14 @@
+l2chains = [
+    {name = "Alfajores", chainId = 44787}
+]
+
+templateName = "OPCMUpgradeV200"
+
+[opcmUpgrades]
+absolutePrestates = [
+    {absolutePrestate = "0x03b357b30095022ecbb44ef00d1de19df39cf69ee92a60683a6be2c6f8fe6a3e", chainId = 44787},
+]
+
+[addresses]
+OPCM = "0x5d6ead7547bf15160052def022f98f527437b820"
+StandardValidatorV200 = "0x916d24d3bce2be88189b81da1ce1d1adb0301815"
