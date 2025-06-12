@@ -35,19 +35,19 @@ contract OPCMUpgradeV200 is OPCMTaskBase {
     /// @notice Returns the storage write permissions
     function _taskStorageWrites() internal view virtual override returns (string[] memory) {
         string[] memory storageWrites = new string[](13);
-        storageWrites[0] = "OPCM"; // 0x5D6EaD7547Bf15160052Def022F98F527437b820
-        storageWrites[1] = "SuperchainConfig"; // 0xdf4Fb5371B706936527B877F616eAC0e47c9b785
-        storageWrites[2] = "ProtocolVersions"; // 0x5E5FEA4D2A8f632Af05D1E725D7ca865327A080b
-        storageWrites[3] = "SystemConfigProxy"; // 0x499b0C1F4BDC76d61b1D13b03384eac65FAF50c7
-        storageWrites[4] = "AddressManager"; // 0xF9f47a32F0BB1F92cF200b1CC9a1713F96b65284
-        storageWrites[5] = "L1ERC721BridgeProxy"; // 0x514912297580a20B7a0C2930BC8503d2C13Da642
-        storageWrites[6] = "L1StandardBridgeProxy"; // 0xD1B0E0581973c9eB7f886967A606b9441A897037
-        storageWrites[7] = "DisputeGameFactoryProxy"; // 0xE28AAdcd9883746c0e5068F58f9ea06027b214cb
-        storageWrites[8] = "OptimismPortalProxy"; // 0x82527353927d8D069b3B452904c942dA149BA381
-        storageWrites[9] = "OptimismMintableERC20FactoryProxy"; // 0xa950F004F069B0bF9201b17e71549c7711d4a9d5
-        storageWrites[10] = "OptimismMintableERC20FactoryProxy"; // (PermissionedWeth) 0xB1A97AB7C0c1507Ea0e55A76e34EF4C86793ef28
-        storageWrites[11] = "PermissionedWETH"; // GameType 1 // (DelayedWeth) 0x8e2a6D372557c9661045f26B140E7A189C38D80C
-        storageWrites[12] = "PermissionlessWETH"; // GameType 0 // 0xf05f102e890E713DC9dc0a5e13A8879D5296ee48
+        storageWrites[0] = "OPCM";
+        storageWrites[1] = "SuperchainConfig";
+        storageWrites[2] = "ProtocolVersions";
+        storageWrites[3] = "SystemConfigProxy";
+        storageWrites[4] = "AddressManager";
+        storageWrites[5] = "L1ERC721BridgeProxy";
+        storageWrites[6] = "L1StandardBridgeProxy";
+        storageWrites[7] = "DisputeGameFactoryProxy";
+        storageWrites[8] = "OptimismPortalProxy";
+        storageWrites[9] = "OptimismMintableERC20FactoryProxy";
+        storageWrites[10] = "OptimismMintableERC20FactoryProxy";
+        storageWrites[11] = "PermissionedWETH"; // GameType 1
+        storageWrites[12] = "PermissionlessWETH"; // GameType 0
         return storageWrites;
     }
 
