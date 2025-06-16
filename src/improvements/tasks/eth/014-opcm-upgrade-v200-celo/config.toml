@@ -1,0 +1,14 @@
+l2chains = [
+    {name = "Celo", chainId = 42220}
+]
+
+templateName = "OPCMUpgradeV200"
+
+[opcmUpgrades]
+absolutePrestates = [
+    {absolutePrestate = "0x03b357b30095022ecbb44ef00d1de19df39cf69ee92a60683a6be2c6f8fe6a3e", chainId = 42220},
+]
+
+[addresses]
+OPCM = "0x6f80d32282bc50dd43331ffad11b73f8b97d3dea"
+StandardValidatorV200 = "0x0cdec6fbd8514822fefa0974faa3e32ea4872788"

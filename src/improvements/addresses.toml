@@ -1,13 +1,33 @@
 [eth]
+# Celo Mainnet
 SuperchainConfig = "0x95703e0982140D16f8ebA6d158FccEde42f04a4C"
-ProtocolVersions = "0x8062AbC286f5e7D9428a0Ccb9AbD71e50d93b935" # Cannot be found by chain discovery in SuperchainAddressRegistry.sol
-DeputyGuardianModule = "0xc6901F65369FC59fC1B4D6D6bE7A2318Ff38dB5B"
-FoundationUpgradeSafe = "0x847B5c174615B1B7fDF770882256e2D3E95b9D92"
-SecurityCouncil = "0xc2819DC788505Aac350142A7A707BF9D03E3Bd03"
-ChainGovernorSafe = "0xb0c4C487C5cf6d67807Bc2008c66fa7e2cE744EC" # unichain mainnet 3-of-3
-FoundationOperationsSafe = "0x9BA6e03D8B90dE867373Db8cF1A58d2F7F006b3A"
-BaseOperationsSafe = "0x9855054731540A48b28990B63DcF4f33d8AE46A1" # base mainnet 2-of-2
-GuardianSafe = "0x09f7150D8c019BeF34450d6920f6B3608ceFdAf2"
+ProtocolVersions = "0x1b6dEB2197418075AB314ac4D52Ca1D104a8F663" # Cannot be found by chain discovery in SuperchainAddressRegistry.sol
+# DeputyGuardianModule = "0x0000000000000000000000000000000000000000"
+# DeputyPauseModule = "0x0000000000000000000000000000000000000000"
+FoundationUpgradeSafe = "0x4092A77bAF58fef0309452cEaCb09221e556E112"
+SecurityCouncil = "0x4092A77bAF58fef0309452cEaCb09221e556E112"
+FoundationOperationsSafe = "0x4092A77bAF58fef0309452cEaCb09221e556E112"
+GuardianSafe = "0x4092A77bAF58fef0309452cEaCb09221e556E112"
+AddressManager = "0x55093104b76FAA602F9d6c35A5FFF576bE78d753"
+DisputeGameFactoryProxy = "0xFbAC162162f4009Bb007C6DeBC36B1dAC10aF683"
+L1ERC721BridgeProxy = "0x3C519816C5BdC0a0199147594F83feD4F5847f13"
+L1StandardBridgeProxy = "0x9C4955b92F34148dbcfDCD82e9c9eCe5CF2badfe"
+OptimismMintableERC20FactoryProxy = "0x6f0E4f1EB98A52EfaCF7BE11d48B9d9d6510A906"
+OptimismPortalProxy = "0xc5c5D157928BDBD2ACf6d0777626b6C75a9EAEDC"
+ProxyAdminOwner = "0x4092A77bAF58fef0309452cEaCb09221e556E112"
+SystemConfigProxy = "0x89E31965D844a309231B1f17759Ccaf1b7c09861"
+PermissionedWETH = "0x9c314E8057025F2982aa4B3923Abd741A8e8DE91"
+PermissionlessWETH = "0xa316D42E8Fd98D2Ec364b8bF853d2623E768f95a"
+# Superchain
+# SuperchainConfig = "0x95703e0982140D16f8ebA6d158FccEde42f04a4C"
+# ProtocolVersions = "0x8062AbC286f5e7D9428a0Ccb9AbD71e50d93b935" # Cannot be found by chain discovery in SuperchainAddressRegistry.sol
+# DeputyGuardianModule = "0xc6901F65369FC59fC1B4D6D6bE7A2318Ff38dB5B"
+# FoundationUpgradeSafe = "0x847B5c174615B1B7fDF770882256e2D3E95b9D92"
+# SecurityCouncil = "0xc2819DC788505Aac350142A7A707BF9D03E3Bd03"
+# ChainGovernorSafe = "0xb0c4C487C5cf6d67807Bc2008c66fa7e2cE744EC" # unichain mainnet 3-of-3
+# FoundationOperationsSafe = "0x9BA6e03D8B90dE867373Db8cF1A58d2F7F006b3A"
+# BaseOperationsSafe = "0x9855054731540A48b28990B63DcF4f33d8AE46A1" # base mainnet 2-of-2
+# GuardianSafe = "0x09f7150D8c019BeF34450d6920f6B3608ceFdAf2"
 
 [sep]
 SuperchainConfig = "0xC2Be75506d5724086DEB7245bd260Cc9753911Be"
