@@ -32,6 +32,9 @@ contract OPCMUpgradeV200 is OPCMTaskBase {
     /// @notice Mapping of l2 chain IDs to their respective prestates
     mapping(uint256 => Claim) public absolutePrestates;
 
+    /// @notice Celo: upgrade superchain config flag
+    bool public upgradeSuperchainConfig; 
+
     /// @notice Returns the storage write permissions
     function _taskStorageWrites() internal view virtual override returns (string[] memory) {
         string[] memory storageWrites = new string[](13);
@@ -63,6 +66,9 @@ contract OPCMUpgradeV200 is OPCMTaskBase {
             absolutePrestates[upgrades[i].chainId] = upgrades[i].absolutePrestate;
         }
 
+        // Celo: parse flag for upgrading superchain config
+        upgradeSuperchainConfig = abi.decode(tomlContent.parseRaw(".opcmUpgrades.upgradeSuperchainConfig"), (bool));
+
         OPCM = tomlContent.readAddress(".addresses.OPCM");
         require(IOPContractsManager(OPCM).version().eq("1.6.0"), "Incorrect OPCM");
         vm.label(OPCM, "OPCM");
@@ -87,7 +93,7 @@ contract OPCMUpgradeV200 is OPCMTaskBase {
             });
         }
 
-        (bool success,) = OPCM.delegatecall(abi.encodeCall(IOPContractsManager.upgrade, (opChainConfigs)));
+        (bool success,) = OPCM.delegatecall(abi.encodeCall(IOPContractsManager.upgrade, (opChainConfigs, upgradeSuperchainConfig)));
         require(success, "OPCMUpgradeV200: upgrade call failed in _build.");
     }
 

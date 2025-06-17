@@ -8,6 +8,7 @@ name = "Alfajores"
 chainId = 44787
 absolutePrestate = "0x034b32d11f017711ce7122ac71d87b1c6cc73e10a0dbd957d8b27f6360acaf8f"
 expectedValidationErrors = "SYSCON-20,PDDG-DWETH-30,PDDG-ANCHORP-40,PLDG-ANCHORP-40"
+upgradeSuperchainConfig = true
 
 [addresses]
 OPCM = "0xa0f9833801f2c2c88e2a6e644768e47fd451767f"

@@ -8,6 +8,7 @@ name = "Baklava"
 chainId = 62320
 absolutePrestate = "0x034b32d11f017711ce7122ac71d87b1c6cc73e10a0dbd957d8b27f6360acaf8f"
 expectedValidationErrors = "SYSCON-20,PDDG-DWETH-30,PDDG-ANCHORP-40,PLDG-ANCHORP-40"
+upgradeSuperchainConfig = true
 
 [addresses]
 OPCM = "0xdd07cb5e4b2e89a618f8d3a08c8ff753acfe1c68"
