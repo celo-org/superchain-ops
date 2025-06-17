@@ -8,6 +8,7 @@ templateName = "OPCMUpgradeV200"
 absolutePrestates = [
     {absolutePrestate = "0x03b357b30095022ecbb44ef00d1de19df39cf69ee92a60683a6be2c6f8fe6a3e", chainId = 62320},
 ]
+upgradeSuperchainConfig = true
 
 [addresses]
 OPCM = "0xd29841fbcff24eb5157f2abe7ed0b9819340159a"
