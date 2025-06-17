@@ -12,4 +12,4 @@ upgradeSuperchainConfig = false
 
 [addresses]
 OPCM = "0x597f110a3bee7f260b1657ab63c36d86b3740f36"
-StandardValidatorV200 = "0x0cdec6fbd8514822fefa0974faa3e32ea4872788"
+StandardValidatorV200 = "0x3c7433651845b795cf45eda81dc5ba20ebacc5e6"

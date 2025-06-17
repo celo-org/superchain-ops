@@ -18,26 +18,24 @@ export forkBlockNumber := env_var_or_default('FORK_BLOCK_NUMBER', '-1')
 
 # Simulate sequence execution variables
 export ANVIL_LOCALHOST_RPC :="http://localhost:8545"
-export PRIVATE_KEY_OWNER := "0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80"
-export PRIVATE_KEY_EXECUTOR :="0x59c6995e998f97a5a0044966f0945389dc9e86dae88c7a8412f4603b6b78690d"
+export PRIVATE_KEY_OWNER := env_var_or_default('PK_OWNER', '0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80')
+export PRIVATE_KEY_EXECUTOR :=env_var_or_default('PK_EXEC', '0x59c6995e998f97a5a0044966f0945389dc9e86dae88c7a8412f4603b6b78690d')
 export FAKE_SIG :="11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111"
 
-simulate whichSafe hdPath='0':
+simulate hdPath='0':
   #!/usr/bin/env bash
-  # Get the appropriate safe address based on whichSafe
-  safe=$(bash ${SCRIPT_PATH}/script/get-safe.sh ${TASK_PATH} "{{whichSafe}}")
-
   echo "RPC URL: ${rpcUrl}"
 
+  safe="0x4092A77bAF58fef0309452cEaCb09221e556E112"
   config=${TASK_PATH}/config.toml
   script=${SCRIPT_PATH}/template/${SCRIPT_NAME}.sol
 
   echo "Using script ${script}"
-  echo "getting signer address for {{whichSafe}}..."
-  signer=$(cast call ${safe} "getOwners()(address[])" -r ${rpcUrl} | grep -oE '0x[a-fA-F0-9]{40}' | head -n1)
+  echo "getting signer address for $safe..."
+  signer=$(cast call $safe "getOwners()(address[])" -r ${rpcUrl} | grep -oE '0x[a-fA-F0-9]{40}' | head -n1)
 
   echo "safe: $safe"
-  echo "Simulating call to {{whichSafe}} at ${safe}"
+  echo "Simulating call to ${safe}"
   if [ -z "$SIMULATE_WITHOUT_LEDGER" ]; then
     signer=$(cast wallet address --ledger --mnemonic-derivation-path "m/44'/60'/{{hdPath}}'/0/0")
     echo "Simulating with ledger account: ${signer}"
@@ -63,7 +61,7 @@ simulate whichSafe hdPath='0':
     --sender ${signer} \
     --sig "simulateAsSigner(string,address)" \
     ${config} \
-    ${safe}
+    ${safe} -vvv
 
 sign whichSafe hdPath='0':
   #!/usr/bin/env bash
