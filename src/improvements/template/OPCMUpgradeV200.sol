@@ -160,17 +160,25 @@ contract OPCMUpgradeV200 is OPCMTaskBase {
             string memory expectedErrors_130 =
                 "PROXYA-10,DF-30,PDDG-DWETH-30,PDDG-ANCHORP-40,PLDG-DWETH-30,PLDG-ANCHORP-40";
 
-            // Celo errors
+            // Celo testnet errors
             // SYSCON-20 - gas limit on SystemConfigProxy is now 30M, but can be set by owner to 60M
+            // PORTAL-CEL-10 - expected validation error on testnets -> SuperchainConfig is not external one
             // PDDG-DWETH-30 - PermissionedDelayedWeth owner is not l1PAOMultisig (SystemOwnerSafe) - it is set now to EOA (22eaf69162ae49605441229edbef7d9fc5f4f094)
             // PDDG-ANCHORP-40 / PLDG-ANCHORP-40 - dispute game AnchorStateRegistry root validation is ignored for multiple chains above (including OP, Ink, Soneium)
-            string memory celoExpectedErrors_420 = "SYSCON-20,PDDG-DWETH-30,PDDG-ANCHORP-40,PLDG-ANCHORP-40";
+            string memory celoExpectedErrors_420 = "SYSCON-20,PORTAL-CEL-10,PDDG-DWETH-30,PDDG-ANCHORP-40,PLDG-ANCHORP-40";
+
+            // Celo mainnet errors
+            // SYSCON-20 - gas limit on SystemConfigProxy is now 30M, but can be set by owner to 60M
+            // PORTAL-60 - expected validation error on mainnet -> SuperchainConfig is external one (owned by Optimism)
+            // PDDG-DWETH-30 - PermissionedDelayedWeth owner is not l1PAOMultisig (SystemOwnerSafe) - it is set now to EOA (22eaf69162ae49605441229edbef7d9fc5f4f094)
+            // PDDG-ANCHORP-40 / PLDG-ANCHORP-40 - dispute game AnchorStateRegistry root validation is ignored for multiple chains above (including OP, Ink, Soneium)
+            string memory celoExpectedErrors_42220 = "SYSCON-20,PORTAL-60,PDDG-DWETH-30,PDDG-ANCHORP-40,PLDG-ANCHORP-40";
 
             require(
                 reasons.eq(expectedErrors_11155420) || reasons.eq(expectedErrors_84532) || reasons.eq(expectedErrors_10)
                     || reasons.eq(expectedErrors_1868) || reasons.eq(expectedErrors_57073)
                     || reasons.eq(expectedErrors_1301) || reasons.eq(expectedErrors_130)
-                    || reasons.eq(celoExpectedErrors_420),
+                    || reasons.eq(celoExpectedErrors_420) || reasons.eq(celoExpectedErrors_42220),
                 string.concat("Unexpected errors: ", reasons)
             );
         }
