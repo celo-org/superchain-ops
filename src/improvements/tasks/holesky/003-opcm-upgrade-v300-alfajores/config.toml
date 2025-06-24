@@ -7,9 +7,9 @@ name = "Alfajores"
 [[opcmUpgrades]]
 chainId = 44787
 absolutePrestate = "0x034b32d11f017711ce7122ac71d87b1c6cc73e10a0dbd957d8b27f6360acaf8f"
-expectedValidationErrors = "SYSCON-20,PDDG-DWETH-30,PDDG-ANCHORP-40,PLDG-ANCHORP-40"
+expectedValidationErrors = "SYSCON-20,PORTAL-CEL-10,PDDG-DWETH-30,PDDG-ANCHORP-40,PLDG-ANCHORP-40"
 upgradeSuperchainConfig = true
 
 [addresses]
-OPCM = "0xa0f9833801f2c2c88e2a6e644768e47fd451767f"
-StandardValidatorV300 = "0xa85b7a6fc9364a4a40cae4e38f834c09a968876a" 
+OPCM = "0xaeded1bdf59805ed6298da57b0cb974dcc5feb48"
+StandardValidatorV300 = "0xc6bacfa8421117677e03c3eb81d44b37a9ceef31" 
