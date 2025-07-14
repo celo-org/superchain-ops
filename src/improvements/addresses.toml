@@ -1,16 +1,35 @@
 [eth]
+# Celo Mainnet
 SuperchainConfig = "0x95703e0982140D16f8ebA6d158FccEde42f04a4C"
-ProtocolVersions = "0x8062AbC286f5e7D9428a0Ccb9AbD71e50d93b935" # Cannot be found by chain discovery in SuperchainAddressRegistry.sol
-DeputyGuardianModule = "0xc6901F65369FC59fC1B4D6D6bE7A2318Ff38dB5B"
-FoundationUpgradeSafe = "0x847B5c174615B1B7fDF770882256e2D3E95b9D92"
-SecurityCouncil = "0xc2819DC788505Aac350142A7A707BF9D03E3Bd03"
-ChainGovernorSafe = "0xb0c4C487C5cf6d67807Bc2008c66fa7e2cE744EC" # unichain mainnet 3-of-3
-FoundationOperationsSafe = "0x9BA6e03D8B90dE867373Db8cF1A58d2F7F006b3A"
-GuardianSafe = "0x09f7150D8c019BeF34450d6920f6B3608ceFdAf2"
-
-BaseNestedSafe = "0x9855054731540A48b28990B63DcF4f33d8AE46A1" # 2/2 between Base and their Security Council (SC)
-BaseOperationsSafe = "0x9C4a57Feb77e294Fd7BF5EBE9AB01CAA0a90A110" # The Base safe that is one signer on the BaseNestedSafe
-BaseSCSafe = "0x20AcF55A3DCfe07fC4cecaCFa1628F788EC8A4Dd" # The Base SC safe that is the other signer on the BaseNestedSafe
+ProtocolVersions = "0x1b6dEB2197418075AB314ac4D52Ca1D104a8F663" # Cannot be found by chain discovery in SuperchainAddressRegistry.sol
+# DeputyGuardianModule = "0x0000000000000000000000000000000000000000"
+# DeputyPauseModule = "0x0000000000000000000000000000000000000000"
+FoundationUpgradeSafe = "0x4092A77bAF58fef0309452cEaCb09221e556E112"
+SecurityCouncil = "0x4092A77bAF58fef0309452cEaCb09221e556E112"
+FoundationOperationsSafe = "0x4092A77bAF58fef0309452cEaCb09221e556E112"
+GuardianSafe = "0x4092A77bAF58fef0309452cEaCb09221e556E112"
+AddressManager = "0x55093104b76FAA602F9d6c35A5FFF576bE78d753"
+DisputeGameFactoryProxy = "0xFbAC162162f4009Bb007C6DeBC36B1dAC10aF683"
+L1ERC721BridgeProxy = "0x3C519816C5BdC0a0199147594F83feD4F5847f13"
+L1StandardBridgeProxy = "0x9C4955b92F34148dbcfDCD82e9c9eCe5CF2badfe"
+OptimismMintableERC20FactoryProxy = "0x6f0E4f1EB98A52EfaCF7BE11d48B9d9d6510A906"
+OptimismPortalProxy = "0xc5c5D157928BDBD2ACf6d0777626b6C75a9EAEDC"
+ProxyAdminOwner = "0x4092A77bAF58fef0309452cEaCb09221e556E112"
+SystemConfigProxy = "0x89E31965D844a309231B1f17759Ccaf1b7c09861"
+PermissionedWETH = "0x9c314E8057025F2982aa4B3923Abd741A8e8DE91"
+PermissionlessWETH = "0xa316D42E8Fd98D2Ec364b8bF853d2623E768f95a"
+# Superchain
+# SuperchainConfig = "0x95703e0982140D16f8ebA6d158FccEde42f04a4C"
+# ProtocolVersions = "0x8062AbC286f5e7D9428a0Ccb9AbD71e50d93b935" # Cannot be found by chain discovery in SuperchainAddressRegistry.sol
+# DeputyGuardianModule = "0xc6901F65369FC59fC1B4D6D6bE7A2318Ff38dB5B"
+# FoundationUpgradeSafe = "0x847B5c174615B1B7fDF770882256e2D3E95b9D92"
+# SecurityCouncil = "0xc2819DC788505Aac350142A7A707BF9D03E3Bd03"
+# ChainGovernorSafe = "0xb0c4C487C5cf6d67807Bc2008c66fa7e2cE744EC" # unichain mainnet 3-of-3
+# FoundationOperationsSafe = "0x9BA6e03D8B90dE867373Db8cF1A58d2F7F006b3A"
+# GuardianSafe = "0x09f7150D8c019BeF34450d6920f6B3608ceFdAf2"
+# BaseNestedSafe = "0x9855054731540A48b28990B63DcF4f33d8AE46A1" # 2/2 between Base and their Security Council (SC)
+# BaseOperationsSafe = "0x9C4a57Feb77e294Fd7BF5EBE9AB01CAA0a90A110" # The Base safe that is one signer on the BaseNestedSafe
+# BaseSCSafe = "0x20AcF55A3DCfe07fC4cecaCFa1628F788EC8A4Dd" # The Base SC safe that is the other signer on the BaseNestedSafe
 
 [sep]
 SuperchainConfig = "0xC2Be75506d5724086DEB7245bd260Cc9753911Be"
@@ -21,7 +40,46 @@ FoundationUpgradeSafe = "0xDEe57160aAfCF04c34C887B5962D0a69676d3C8B"
 SecurityCouncil = "0xf64bc17485f0B4Ea5F06A96514182FC4cB561977"
 FoundationOperationsSafe = "0x837DE453AD5F21E89771e3c06239d8236c0EFd5E"
 GuardianSafe = "0x7a50f00e8D05b95F98fE38d8BeE366a7324dCf7E"
-
 BaseNestedSafe = "0x646132A1667ca7aD00d36616AFBA1A28116C770A" # 2/2 between Base and their Security Council (SC)
 BaseOperationsSafe = "0x6AF0674791925f767060Dd52f7fB20984E8639d8" # The Base safe that is one signer on the BaseNestedSafe
 BaseSCSafe = "0x5dfEB066334B67355A15dc9b67317fD2a2e1f77f" # The Base SC safe that is the other signer on the BaseNestedSafe
+
+[holesky]
+# Alfajores
+SuperchainConfig = "0xdf4Fb5371B706936527B877F616eAC0e47c9b785"
+ProtocolVersions = "0x5E5FEA4D2A8f632Af05D1E725D7ca865327A080b" # Cannot be found by chain discovery in SuperchainAddressRegistry.sol
+# DeputyGuardianModule = "0x0000000000000000000000000000000000000000"
+# DeputyPauseModule = "0x0000000000000000000000000000000000000000"
+FoundationUpgradeSafe = "0xf05f102e890E713DC9dc0a5e13A8879D5296ee48"
+SecurityCouncil = "0xf05f102e890E713DC9dc0a5e13A8879D5296ee48"
+FoundationOperationsSafe = "0xf05f102e890E713DC9dc0a5e13A8879D5296ee48"
+GuardianSafe = "0xf05f102e890E713DC9dc0a5e13A8879D5296ee48"
+AddressManager = "0xF9f47a32F0BB1F92cF200b1CC9a1713F96b65284"
+DisputeGameFactoryProxy = "0xE28AAdcd9883746c0e5068F58f9ea06027b214cb"
+L1ERC721BridgeProxy = "0x514912297580a20B7a0C2930BC8503d2C13Da642"
+L1StandardBridgeProxy = "0xD1B0E0581973c9eB7f886967A606b9441A897037"
+OptimismMintableERC20FactoryProxy = "0xa950F004F069B0bF9201b17e71549c7711d4a9d5"
+OptimismPortalProxy = "0x82527353927d8D069b3B452904c942dA149BA381"
+ProxyAdminOwner = "0xf05f102e890E713DC9dc0a5e13A8879D5296ee48"
+SystemConfigProxy = "0x499b0C1F4BDC76d61b1D13b03384eac65FAF50c7"
+PermissionedWETH = "0xB1A97AB7C0c1507Ea0e55A76e34EF4C86793ef28"
+PermissionlessWETH = "0x8e2a6D372557c9661045f26B140E7A189C38D80C"
+# Baklava
+# SuperchainConfig = "0xf07502A4a950d870c43b12660fB1Dd18c170D344"
+# ProtocolVersions = "0x3d438C63e0431DA844d3F60E6c712d10FC75c529" # Cannot be found by chain discovery in SuperchainAddressRegistry.sol
+# # DeputyGuardianModule = "0x0000000000000000000000000000000000000000"
+# # DeputyPauseModule = "0x0000000000000000000000000000000000000000"
+# FoundationUpgradeSafe = "0xd542f3328ff2516443FE4db1c89E427F67169D94"
+# SecurityCouncil = "0xd542f3328ff2516443FE4db1c89E427F67169D94"
+# FoundationOperationsSafe = "0xd542f3328ff2516443FE4db1c89E427F67169D94"
+# GuardianSafe = "0xd542f3328ff2516443FE4db1c89E427F67169D94"
+# AddressManager = "0x156aa732322e878E01e3fB9d6C7a3b30b267bBA4"
+# DisputeGameFactoryProxy = "0x788ef5850c3a51d41f59Dc4327017EF8D754eD80"
+# L1ERC721BridgeProxy = "0xe65F0FE051FCe8a8De3A5c8DcFa474025F6F2D73"
+# L1StandardBridgeProxy = "0x6fd3fF186975aD8B66Ab40b705EC016b36da0486"
+# OptimismMintableERC20FactoryProxy = "0x0e8e9173e163C593AcF823BA0880f25bCF40fEa1"
+# OptimismPortalProxy = "0x87e9cB54f185a32266689138fbA56F0C994CF50c"
+# ProxyAdminOwner = "0xd542f3328ff2516443FE4db1c89E427F67169D94"
+# SystemConfigProxy = "0x3ee24bF404e4a5D27A437d910F56E1eD999B1De8"
+# PermissionedWETH = "0x913D24b7E2730Cab1d97423cE154aC1C224734f2"
+# PermissionlessWETH = "0x9B014033014c8C9026Dbc5151049ffFA8581942E"

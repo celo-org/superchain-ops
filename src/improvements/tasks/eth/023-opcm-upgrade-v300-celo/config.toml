@@ -1,0 +1,15 @@
+templateName = "OPCMUpgradeV300"
+
+[[l2chains]]
+chainId = 42220
+name = "Celo"
+
+[[opcmUpgrades]]
+chainId = 42220
+absolutePrestate = "0x034b32d11f017711ce7122ac71d87b1c6cc73e10a0dbd957d8b27f6360acaf8f"
+expectedValidationErrors = "SYSCON-20,PORTAL-60,PDDG-DWETH-30,PDDG-ANCHORP-40,PLDG-ANCHORP-40"
+upgradeSuperchainConfig = false
+
+[addresses]
+OPCM = "0x2e8cd74af534f5eeb53f889d92fd4220546a15e7"
+StandardValidatorV300 = "0x1ef2aa0d3d08d320a9d6bf23661bfcb6bf1ce6fa" 
