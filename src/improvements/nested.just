@@ -63,7 +63,7 @@ simulate hdPath='0':
     ${fork_block_arg} \
     --rpc-url ${rpcUrl} \
     --sender ${signer} \
-    --sig "simulateAsSigner(string,address)" \
+    --sig "simulate(string,address)" \
     ${config} \
     ${safe}
 
@@ -98,7 +98,7 @@ sign whichSafe hdPath='0' ledger='true':
   $(git rev-parse --show-toplevel)/bin/eip712sign ${signer_args} -- \
   forge script ${script} \
     --rpc-url ${rpcUrl} \
-    --sig "signFromChildMultisig(string,address)" \
+    --sig "simulateQuietly(string,address)" \
     ${config} \
     "${safe}"
 
@@ -109,8 +109,9 @@ approve whichSafe hdPath='0' ledger='true':
   config=${TASK_PATH}/config.toml
   script=${SCRIPT_PATH}/template/${SCRIPT_NAME}.sol
   if {{ledger}}; then
+    hdpaths="m/44'/60'/{{hdPath}}'/0/0"
     sender=$(cast wallet address --ledger --mnemonic-derivation-path "m/44'/60'/{{hdPath}}'/0/0")
-    signer_args="--ledger --hd-paths \"m/44'/60'/{{hdPath}}'/0/0\""
+    signer_args="--ledger --hd-paths $hdpaths"
   else
     cd ${TASK_PATH}
     signer_private_key=$(just --justfile=${JUSTFILE_PATH} get-keystore-private-key)
@@ -124,7 +125,7 @@ approve whichSafe hdPath='0' ledger='true':
     --fork-url ${rpcUrl} \
     --broadcast \
     --sender ${sender} \
-    --sig "approveFromChildMultisig(string,address,bytes)" \
+    --sig "approve(string,address,bytes)" \
     ${signer_args} \
     ${config} \
     ${safe} \
@@ -151,7 +152,7 @@ approve_in_anvil whichSafe signature:
     --fork-url ${ANVIL_LOCALHOST_RPC} \
     --broadcast \
     --sender ${sender} \
-    --sig "approveFromChildMultisig(string,address,bytes)" \
+    --sig "approve(string,address,bytes)" \
     --private-key ${PRIVATE_KEY_EXECUTOR} \
     ${config} \
     ${safe} \
@@ -175,7 +176,7 @@ simulate-approve whichSafe hdPath='0':
   forge script ${script} \
     --fork-url ${rpcUrl} \
     --sender ${sender} \
-    --sig "approveFromChildMultisig(string,address,bytes)" \
+    --sig "approve(string,address,bytes)" \
     ${config} \
     ${safe} \
     ${signatures}
@@ -185,10 +186,16 @@ execute hdPath='0' ledger='true':
   config=${TASK_PATH}/config.toml
   script=${SCRIPT_PATH}/template/${SCRIPT_NAME}.sol
 
+  # For nested tasks, the 'just approve' command will have been called previously, which will
+  # update the nonces of the child safes. Therefore we disable the nonce check in order to
+  # prevent failures of the `just execute` command.
+  DISABLE_OVERRIDE_NONCE_CHECK=1
+
   echo "Using script ${script}"
   if {{ledger}}; then
+    hdpaths="m/44'/60'/{{hdPath}}'/0/0"
     sender=$(cast wallet address --ledger --mnemonic-derivation-path "m/44'/60'/{{hdPath}}'/0/0")
-    signer_args="--ledger --hd-paths \"m/44'/60'/{{hdPath}}'/0/0\""
+    signer_args="--ledger --hd-paths $hdpaths"
   else
     cd ${TASK_PATH}
     signer_private_key=$(just --justfile=${JUSTFILE_PATH} get-keystore-private-key)
@@ -202,7 +209,7 @@ execute hdPath='0' ledger='true':
     --fork-url ${rpcUrl} \
     --broadcast \
     --sender ${sender} \
-    --sig "executeRun(string,bytes)" \
+    --sig "execute(string,bytes)" \
     ${signer_args} \
     ${config} \
     "0x"
@@ -218,7 +225,7 @@ simulated-run hdPath='0':
   forge script ${script} \
     --fork-url ${rpcUrl} \
     --sender ${randomPersonEoa} \
-    --sig "executeRun(string,bytes)" \
+    --sig "execute(string,bytes)" \
     ${config} \
     "0x"
 
@@ -266,7 +273,7 @@ sign_and_approve_in_anvil whichSafe parentSafe:
   res_sig=$($(git rev-parse --show-toplevel)/bin/eip712sign --private-key ${privateKey}  -- \
   forge script ${script} \
     --rpc-url ${ANVIL_LOCALHOST_RPC} \
-    --sig "signFromChildMultisig(string,address)" \
+    --sig "simulate(string,address)" \
     ${config} \
     "${safe}")
   signature=$(echo "$res_sig" | grep -o 'Signature: [a-fA-F0-9]\{130\}' | cut -d' ' -f2)
@@ -275,7 +282,7 @@ sign_and_approve_in_anvil whichSafe parentSafe:
   if [ -n "$signature" ]; then
       echo "Signature found: $signature"
   else
-      echo "[ERROR] No signature found extracted from signFromChildMultisig(string,address)"
+      echo "[ERROR] No signature found extracted from simulate(string,address)"
       exit 1
   fi
   cd ${TASK_PATH}
@@ -301,7 +308,7 @@ execute_in_anvil:
     --fork-url ${ANVIL_LOCALHOST_RPC} \
     --broadcast \
     --sender ${sender} \
-    --sig "executeRun(string,bytes)" \
+    --sig "execute(string,bytes)" \
     --private-key ${PRIVATE_KEY_EXECUTOR} \
     ${config} \
     "0x"

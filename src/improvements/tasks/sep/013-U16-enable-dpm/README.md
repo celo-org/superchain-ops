@@ -1,6 +1,6 @@
 # 013-U16-enable-dpm: Enable New Deputy Pause Module on Sepolia
 
-Status: [DRAFT]()
+Status: [EXECUTED](https://sepolia.etherscan.io/tx/0x534157950c9f312aa8940a65cc7e4c1e426cda44268e9e5d0d3f48fb37408cb8)
 
 ## Objective
 
@@ -30,5 +30,5 @@ Then follow the instructions in the [Validation](./VALIDATION.md) guide.
 Navigate to the correct task directory then run the simulate command.
 ```
 cd src/improvements/tasks/sep/013-U16-enable-dpm
-SIMULATE_WITHOUT_LEDGER=1 just --dotenv-path $(pwd)/.env --justfile ../../../nested.just simulate council
+just simulate-stack sep 013-U16-enable-dpm
 ```

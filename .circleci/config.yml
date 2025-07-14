@@ -171,6 +171,8 @@ jobs:
       - utils/checkout-with-mise
       - run:
           name: "Run stacked simulation for network: <<parameters.network>>"
+          # This may need to be increased in the future. We should focus on fixing the performance first before bumping this.
+          no_output_timeout: 30m 
           command: |
             just install
             cd src/improvements
@@ -410,19 +412,11 @@ workflows:
       - just_simulate_sc_rehearsal_4:
           context:
             - circleci-repo-readonly-authenticated-github-token
-      - just_simulate_nested:
-          task: "/eth/metal-002-fp-upgrade"
-          context:
-            - circleci-repo-readonly-authenticated-github-token
-      - just_simulate_nested:
-          task: "/eth/mode-002-fp-upgrade"
-          context:
-            - circleci-repo-readonly-authenticated-github-token
 
       - simulate_sequence:
           name: simulate_sequence_eth
           network: "eth"
-          tasks: "metal-002 mode-002"
+          tasks: ""
           block_number: "" # If not specified, the latest block number is used.
           context:
             - circleci-repo-readonly-authenticated-github-token

@@ -23,11 +23,6 @@ the values printed to the terminal when you run the task.
 >
 > - Domain Hash: `0xbe081970e9fc104bd1ea27e375cd21ec7bb1eec56bfe43347c3e36c5d27b8533`
 > - Message Hash: `0xd08ffd9e319bd742ca7bf58356c145ec07c6068a671d3d8ed92bf89fe25c3411`
->
-> ### Nested Safe 2 (Foundation): `0xDEe57160aAfCF04c34C887B5962D0a69676d3C8B`
->
-> - Domain Hash: `0x37e1f5dd3b92a004a23589b741196c8a214629d4ea3a690ec8e41ae45c689cbb`
-> - Message Hash: `0xac9761d0cd16b19a1a400fd186b9eb22000b6d2d3767f17b6a6bee9b1447954f`
 
 ## Normalized State Diff Hash Attestation
 
@@ -96,7 +91,7 @@ Note: The changes listed below do not include threshold, nonce and owner mapping
 
 ### Task State Changes
 
-### `0x7a50f00e8d05b95f98fe38d8bee366a7324dcf7e` (Guardian (GnosisSafe)) - Chain ID: 11011
+### `0x7a50f00e8d05b95f98fe38d8bee366a7324dcf7e` (Guardian (GnosisSafe)) - Chain ID: 11155111
   
 - **Key:**          `0x0000000000000000000000000000000000000000000000000000000000000005`
   - **Decoded Kind:** `uint256`
@@ -108,11 +103,22 @@ Note: The changes listed below do not include threshold, nonce and owner mapping
 - **Key:**          `0x076f3dda6ab776db8482d7489f57d7a476c42f834ef63e2337ab108dc39e16be`
   - **Before:** `0x0000000000000000000000000000000000000000000000000000000000000000`
   - **After:** `0x000000000000000000000000fd7e6ef1f6c9e4cc34f54065bf8496ce41a4e2e8`
-  - **Summary:** 
-  - **Detail:** 
-  
+  - **Summary:**  Adding the new Deputy Pause Module to the linked list.
+  - **Detail:**  We are adding the previous module to the linked list again as we replace the old reference with the new DPM.
+
 - **Key:**          `0xcc69885fda6bcc1a4ace058b4a62bf5e179ea78fd58a1ccd71c22cc9b688792f`
   - **Before:** `0x000000000000000000000000fd7e6ef1f6c9e4cc34f54065bf8496ce41a4e2e8`
   - **After:** `0x000000000000000000000000c10dac07d477215a1ebebae1dd0221c1f5d241d2`
-  - **Summary:** 
-  - **Detail:** 
+  - **Summary:** Adding the new Deputy Pause Module to the linked list.
+  - **Detail:** We are adding the new Deputy Pause Module to the linked list by replacing the previous module with the new one.
+
+### Nonce increments
+
+The only other state change are two nonce increments:
+
+- `0xf64bc17485f0B4Ea5F06A96514182FC4cB561977` - Security Council
+- `0xf13D09eD3cbdD1C930d4de74808de1f33B6b3D4f` - Sender address of the Tenderly transaction (Your ledger or first owner on the nested safe).
+
+And one liveness guard update update as we are doing a transaction:
+
+- `0xc26977310bC89DAee5823C2e2a73195E85382cC7` - LivenessGuard

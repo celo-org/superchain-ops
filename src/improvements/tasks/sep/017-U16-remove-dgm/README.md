@@ -1,6 +1,6 @@
-# 018-U16-remove-dgm: Remove Deputy Guardian Module on Sepolia
+# 017-U16-remove-dgm: Remove Deputy Guardian Module on Sepolia
 
-Status: [DRAFT]()
+Status: [EXECUTED](https://sepolia.etherscan.io/tx/0x49cb2cf3bc37ad6cb71b9761a7cba9a6d2e803c6086ff868b8c484a1576dbf9f)
 
 ## Objective
 
@@ -8,7 +8,7 @@ Disabling the legacy Deputy Guardian module due to its deprecation in U16.
 
 ### Timing
 
-Expected to be executed on or around 2025-05-29.
+Expected to be executed on or around 2025-07-09.
 
 ## Transaction creation
 
@@ -29,6 +29,6 @@ Then follow the instructions in the [Validation](./VALIDATION.md) guide.
 
 Navigate to the correct task directory then run the simulate command.
 ```
-cd src/improvements/tasks/sep/018-U16-remove-dgm
-SIMULATE_WITHOUT_LEDGER=1 just --dotenv-path $(pwd)/.env --justfile ../../../single.just simulate 
+cd src/improvements/tasks/sep/017-U16-remove-dgm
+just simulate-stack sep 017-U16-remove-dgm
 ```

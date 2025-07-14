@@ -1,4 +1,4 @@
-# 019-U16-remove-dpm: Remove Old Deputy Pause Module on Sepolia
+# 018-U16-remove-dpm: Remove Old Deputy Pause Module on Sepolia
 
 Status: [DRAFT]()
 
@@ -8,7 +8,7 @@ Disabling the legacy Deputy Pause module due to its deprecation in U16.
 
 ### Timing
 
-Expected to be executed on or around 2025-05-29.
+Expected to be executed on or around 2025-07-24.
 
 ## Transaction creation
 
@@ -29,6 +29,6 @@ Then follow the instructions in the [Validation](./VALIDATION.md) guide.
 
 Navigate to the correct task directory then run the simulate command.
 ```
-cd src/improvements/tasks/sep/019-U16-remove-dpm
+cd src/improvements/tasks/eth/021-U16-remove-dpm
 SIMULATE_WITHOUT_LEDGER=1 just --dotenv-path $(pwd)/.env --justfile ../../../single.just simulate
 ```
