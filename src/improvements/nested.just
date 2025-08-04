@@ -21,24 +21,25 @@ export keystorePathBase := "~/.foundry/keystores/"
 
 # Simulate sequence execution variables
 export ANVIL_LOCALHOST_RPC :="http://localhost:8545"
-export PRIVATE_KEY_OWNER := "0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80"
-export PRIVATE_KEY_EXECUTOR :="0x59c6995e998f97a5a0044966f0945389dc9e86dae88c7a8412f4603b6b78690d"
+export PRIVATE_KEY_OWNER := env_var_or_default("PK_OWNER", "0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80")
+export PRIVATE_KEY_EXECUTOR := env_var_or_default("PK_EXEC", "0x59c6995e998f97a5a0044966f0945389dc9e86dae88c7a8412f4603b6b78690d")
 export FAKE_SIG :="11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111"
 
-simulate whichSafe hdPath='0':
+simulate hdPath='0':
   #!/usr/bin/env bash
   # Get the appropriate safe address based on whichSafe
-  safe=$(bash ${SCRIPT_PATH}/script/get-safe.sh ${TASK_PATH} "{{whichSafe}}")
   echo "RPC URL: ${rpcUrl}"
+
+  safe="0x4092A77bAF58fef0309452cEaCb09221e556E112"
   config=${TASK_PATH}/config.toml
   script=${SCRIPT_PATH}/template/${SCRIPT_NAME}.sol
 
   echo "Using script ${script}"
-  echo "getting signer address for {{whichSafe}}..."
+  echo "getting signer address for ${safe}..."
   signer=$(cast call ${safe} "getOwners()(address[])" -r ${rpcUrl} | grep -oE '0x[a-fA-F0-9]{40}' | head -n1)
 
   echo "safe: $safe"
-  echo "Simulating call to {{whichSafe}} at ${safe}"
+  echo "Simulating call to ${safe}"
   if [ -z "$SIMULATE_WITHOUT_LEDGER" ]; then
     signer=$(cast wallet address --ledger --mnemonic-derivation-path "m/44'/60'/{{hdPath}}'/0/0")
     echo "Simulating with ledger account: ${signer}"
@@ -329,3 +330,98 @@ get-keystore-private-key:
     exit 1
   fi
   echo "${signer_private_key}"
+
+
+sign_and_execute_in_anvil parentSafe juniorSafe:
+  #!/usr/bin/env bash
+  config=${TASK_PATH}/config.toml
+  script=${SCRIPT_PATH}/template/${SCRIPT_NAME}.sol
+  config=${TASK_PATH}/config.toml
+  echo "Script name: ${SCRIPT_NAME}"
+  echo "Task path: ${TASK_PATH}"
+  echo "Script path: ${SCRIPT_PATH}"
+
+  echo "Using script ${script}"
+  echo "Getting signer address..."
+  signer=$(cast wallet address --private-key ${PRIVATE_KEY_EXECUTOR})
+  echo "Signing with: ${signer}"
+  echo ""
+
+  ownerSafe={{parentSafe}}
+  childSafe={{juniorSafe}}
+
+  echo "============ OVERRIDE SAFE SETTINGS for parent: '${ownerSafe}' & child: '${childSafe}' ============"
+  echo "1. Set the threshold to 1."
+  cast rpc anvil_setStorageAt ${ownerSafe} 0x0000000000000000000000000000000000000000000000000000000000000004 0x0000000000000000000000000000000000000000000000000000000000000001 --rpc-url ${ANVIL_LOCALHOST_RPC}
+  cast rpc anvil_setStorageAt ${childSafe} 0x0000000000000000000000000000000000000000000000000000000000000004 0x0000000000000000000000000000000000000000000000000000000000000001 --rpc-url ${ANVIL_LOCALHOST_RPC}
+
+  echo "2.set the owner count to 1."
+  cast rpc anvil_setStorageAt ${ownerSafe} 0x0000000000000000000000000000000000000000000000000000000000000003 0x0000000000000000000000000000000000000000000000000000000000000001 --rpc-url ${ANVIL_LOCALHOST_RPC}
+  cast rpc anvil_setStorageAt ${childSafe} 0x0000000000000000000000000000000000000000000000000000000000000003 0x0000000000000000000000000000000000000000000000000000000000000001 --rpc-url ${ANVIL_LOCALHOST_RPC}
+  
+  echo "3.Insert the child safe address & 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266 as the sole owner of the safes."
+  # cast keccak 1 || 2 => 0xe90b7bceb6e7df5418fb78d8ee546e97c83a08bbccc01a0644d599ccd2a7c2e0 expected owner mapping: {0x1 -> 0xf39..., 0xf39 -> 0x1}
+  cast rpc anvil_setStorageAt ${ownerSafe} 0xe90b7bceb6e7df5418fb78d8ee546e97c83a08bbccc01a0644d599ccd2a7c2e0 0x000000000000000000000000${childSafe:2} --rpc-url ${ANVIL_LOCALHOST_RPC}
+  cast rpc anvil_setStorageAt ${childSafe} 0xe90b7bceb6e7df5418fb78d8ee546e97c83a08bbccc01a0644d599ccd2a7c2e0 0x000000000000000000000000${signer:2} --rpc-url ${ANVIL_LOCALHOST_RPC}
+  
+  echo "4.Close the mapping of the owners to the sentinel address."
+  # cast index address 0xC03172263409584f7860C25B6eB4985f0f6F4636 2 => 0x08e26275bfea81cb6e947a60aee1cbc0cc1f1a12f3a95cfa65148dacd0073117
+  # cast index address 0xe571b94CF7e95C46DFe6bEa529335f4A11d15D92 2 => 0xdda9f64aff53181559ce82421f5858375c4886ceadd53c8cc76d2cd4c275f9f7
+  cast rpc anvil_setStorageAt ${ownerSafe} 0x08e26275bfea81cb6e947a60aee1cbc0cc1f1a12f3a95cfa65148dacd0073117 0x0000000000000000000000000000000000000000000000000000000000000001 --rpc-url ${ANVIL_LOCALHOST_RPC}
+  cast rpc anvil_setStorageAt ${childSafe} 0xdda9f64aff53181559ce82421f5858375c4886ceadd53c8cc76d2cd4c275f9f7 0x0000000000000000000000000000000000000000000000000000000000000001 --rpc-url ${ANVIL_LOCALHOST_RPC}
+
+  echo "5. Check ownership of safes."
+  echo "the sole Owner of the ${ownerSafe} is: $(cast call ${ownerSafe} "getOwners()(address[])" --rpc-url http://localhost:8545)"
+  echo "the sole Owner of the ${childSafe} is: $(cast call ${childSafe} "getOwners()(address[])" --rpc-url http://localhost:8545)"
+  echo "================================================"
+  
+  forge build
+
+  # Using the eip712sign within the repo folder since eip712sign was installed there in ./justfile.
+  # We remove the 2 first characters of the private key ${PRIVATE_KEY_OWNER}
+  echo "Simulate & use EIP712 to sign signature"
+  privateKey=${PRIVATE_KEY_OWNER:2}
+  ROOT_DIR=$(git rev-parse --show-toplevel)
+  res_sig=$($ROOT_DIR/bin/eip712sign --private-key ${privateKey}  -- \
+  forge script ${script} \
+    --rpc-url ${ANVIL_LOCALHOST_RPC} \
+    --sig "simulate(string,address)" \
+    --private-key ${privateKey} \
+    ${config} \
+    "${childSafe}")
+  echo "Build signature"
+  signature=$(echo "$res_sig" | grep -o 'Signature: [a-fA-F0-9]\{130\}' | cut -d' ' -f2)
+
+  # Check if the signature is not empty
+  echo "Validate signature"
+  if [ -n "$signature" ]; then
+      echo "Signature found: $signature"
+  else
+      echo "[ERROR] No signature found extracted from simulate(string,address)"
+      exit 1
+  fi
+
+  echo "Approve signature"
+  approve_res=$(forge script ${script} \
+    --rpc-url ${ANVIL_LOCALHOST_RPC} \
+    --broadcast \
+    --sender ${signer} \
+    --sig "approve(string,address,bytes)" \
+    --private-key ${PRIVATE_KEY_EXECUTOR} \
+    ${config} \
+    ${childSafe} \
+    ${signature} 2>&1)
+  if [[ $approve_res == *"not enough signatures"* ]]; then
+    echo "Signature is incorrect"
+    exit 100
+  else
+    echo "Approve successful"
+  fi
+
+  echo "Execute script"
+  forge script ${script} \
+    --sig "execute(string,bytes)" ${config} "0x" \
+    --broadcast \
+    --sender ${signer} \
+    --private-key  ${PRIVATE_KEY_EXECUTOR} \
+    --rpc-url ${ANVIL_LOCALHOST_RPC}

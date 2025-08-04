@@ -29,6 +29,7 @@ contract OPCMUpgradeV300 is OPCMTaskBase {
         Claim absolutePrestate;
         uint256 chainId;
         string expectedValidationErrors;
+        bool upgradeSuperchainConfig;
     }
 
     /// @notice Mapping of L2 chain IDs to their respective OPCMUpgrade structs.
@@ -95,7 +96,7 @@ contract OPCMUpgradeV300 is OPCMTaskBase {
             });
         }
 
-        (bool success,) = OPCM.delegatecall(abi.encodeCall(IOPContractsManager.upgrade, (opChainConfigs)));
+        (bool success,) = OPCM.delegatecall(abi.encodeCall(IOPContractsManager.upgrade, (opChainConfigs, upgrades[0].upgradeSuperchainConfig)));
         require(success, "OPCMUpgradeV300: upgrade call failed in _build.");
     }
 
