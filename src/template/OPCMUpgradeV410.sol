@@ -32,6 +32,7 @@ contract OPCMUpgradeV410 is OPCMTaskBase {
         Claim absolutePrestate;
         uint256 chainId;
         string expectedValidationErrors;
+        bool upgradeSuperchainConfig;
     }
 
     /// @notice Mapping of L2 chain IDs to their respective OPCMUpgrade structs.
@@ -40,7 +41,7 @@ contract OPCMUpgradeV410 is OPCMTaskBase {
     /// @notice Returns the storage write permissions required for this task. This is an array of
     /// contract names that are expected to be written to during the execution of the task.
     function _taskStorageWrites() internal pure virtual override returns (string[] memory) {
-        string[] memory storageWrites = new string[](9);
+        string[] memory storageWrites = new string[](10);
         storageWrites[0] = "ProxyAdminOwner";
         storageWrites[1] = "DisputeGameFactoryProxy";
         storageWrites[2] = "SystemConfigProxy";
@@ -50,6 +51,7 @@ contract OPCMUpgradeV410 is OPCMTaskBase {
         storageWrites[6] = "L1StandardBridgeProxy";
         storageWrites[7] = "L1ERC721BridgeProxy";
         storageWrites[8] = "AnchorStateRegistryProxy";
+        storageWrites[9] = "SuperchainConfig";
         return storageWrites;
     }
 
@@ -97,7 +99,7 @@ contract OPCMUpgradeV410 is OPCMTaskBase {
             });
         }
 
-        (bool success,) = OPCM_TARGETS[0].delegatecall(abi.encodeCall(IOPContractsManager.upgrade, (opChainConfigs)));
+        (bool success,) = OPCM_TARGETS[0].delegatecall(abi.encodeCall(IOPContractsManager.upgrade, (opChainConfigs, upgrades[chains[0].chainId].upgradeSuperchainConfig)));
         require(success, "OPCMUpgradeV410: Delegatecall failed in _build.");
     }
 

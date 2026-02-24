@@ -4,8 +4,6 @@ pragma solidity 0.8.15;
 import {VmSafe} from "forge-std/Vm.sol";
 import {MultisigTask} from "src/tasks/MultisigTask.sol";
 import {IMulticall3} from "forge-std/interfaces/IMulticall3.sol";
-import {stdStorage, StdStorage} from "forge-std/Test.sol";
-import {IOPContractsManager} from "lib/optimism/packages/contracts-bedrock/interfaces/L1/IOPContractsManager.sol";
 import {IGnosisSafe} from "@base-contracts/script/universal/IGnosisSafe.sol";
 
 import {AccountAccessParser} from "src/libraries/AccountAccessParser.sol";
@@ -16,8 +14,8 @@ import {Utils} from "src/libraries/Utils.sol";
 
 /// @notice This contract is used for all OPCM task types. It overrides various functions in the L2TaskBase contract.
 abstract contract OPCMTaskBase is L2TaskBase {
-    using stdStorage for StdStorage;
     using AccountAccessParser for VmSafe.AccountAccess[];
+
 
     /// @notice The allowed targets for the OPCM task. Some OPCM templates invoked multiple OPCMs so
     /// we use an array to capture all the OPCMs that are allowed to be targeted.
@@ -76,17 +74,7 @@ abstract contract OPCMTaskBase is L2TaskBase {
         for (uint256 i = 0; i < OPCM_TARGETS.length; i++) {
             address OPCM = OPCM_TARGETS[i];
             AccountAccessParser.StateDiff[] memory opcmDiffs = accesses.getStateDiffFor(OPCM, false);
-            require(opcmDiffs.length <= 1, "OPCMTaskBase: OPCM must have at most 1 state change");
-            // Not all invocations of OPCM upgrade will have the isRC state change. This is because it only happens when
-            // address(this) is equal to the OPCMs 'upgradeController' address (which is an immutable).
-            if (opcmDiffs.length == 1) {
-                AccountAccessParser.StateDiff memory opcmDiff = opcmDiffs[0];
-                bytes32 opcmStateSlot =
-                    bytes32(uint256(stdstore.target(OPCM).sig(IOPContractsManager.isRC.selector).find()));
-                require(opcmDiff.slot == opcmStateSlot, "OPCMTaskBase: Incorrect OPCM isRc slot");
-                require(opcmDiff.oldValue == bytes32(uint256(1)), "OPCMTaskBase: Incorrect OPCM isRc old value");
-                require(opcmDiff.newValue == bytes32(uint256(0)), "OPCMTaskBase: Incorrect OPCM isRc new value");
-            }
+            require(opcmDiffs.length == 0, "OPCMTaskBase: OPCM must have no state changes");
         }
     }
 

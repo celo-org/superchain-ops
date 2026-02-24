@@ -8,6 +8,7 @@ evm_version = "cancun"
 fs_permissions = [{ access = "read-write", path = "./" }]
 gas_limit = "18446744073709551615" # max allowable value, which is max uint64
 ffi = true # Enable FFI for reading lib/superchain-registry files in scripts SignFromJson.s.sol, NestedSignFromJson.s.sol within tasks
+no_storage_caching = true
 no_match_coverage = 'src/template/boilerplate/|script/|src/JsonTxBuilderBase.sol|test'
 
 remappings = [
@@ -34,7 +35,7 @@ opMainnet = "https://mainnet.optimism.io" # We eventually need a CI L2 RPC URL f
 
 [profile.default.rpc_endpoints]
 localhost = "http://127.0.0.1:8545"
-mainnet = "https://ethereum.publicnode.com"
-sepolia = "https://ethereum-sepolia-rpc.publicnode.com"
-opSepolia = "https://sepolia.optimism.io"
-opMainnet = "https://mainnet.optimism.io"
+mainnet = "http://127.0.0.1:8545"
+sepolia = "http://127.0.0.1:8545"
+opSepolia = "http://127.0.0.1:8545"
+opMainnet = "http://127.0.0.1:8545"

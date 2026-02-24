@@ -7,6 +7,7 @@ import {
     ISystemConfig,
     IProxyAdmin
 } from "@eth-optimism-bedrock/interfaces/L1/IOPContractsManager.sol";
+import {IHasSuperchainConfig} from "@eth-optimism-bedrock/interfaces/L1/IHasSuperchainConfig.sol";
 import {Claim} from "@eth-optimism-bedrock/src/dispute/lib/Types.sol";
 import {EIP1967Helper} from "@eth-optimism-bedrock/test/mocks/EIP1967Helper.sol";
 import {VmSafe} from "forge-std/Vm.sol";
@@ -28,6 +29,7 @@ contract OPCMUpgradeV500 is OPCMTaskBase {
         Claim absolutePrestate;
         uint256 chainId;
         string expectedValidationErrors;
+        bool upgradeSuperchainConfig;
     }
 
     /// @notice Mapping of L2 chain IDs to their respective OPCMUpgrade structs.
@@ -107,20 +109,21 @@ contract OPCMUpgradeV500 is OPCMTaskBase {
 
     /// @notice Builds the actions for executing the operations.
     function _build(address) internal override {
-        {
-            string memory current = SUPERCHAIN_CONFIG.version();
-            address targetImpl = IOPContractsManager(OPCM_TARGETS[0]).implementations().superchainConfigImpl;
-            string memory target = ISuperchainConfig(targetImpl).version();
-            if (keccak256(bytes(current)) != keccak256(bytes(target))) {
-                (bool ok1,) = OPCM_TARGETS[0].delegatecall(
-                    abi.encodeCall(
-                        IOPContractManagerV500.upgradeSuperchainConfig,
-                        (SUPERCHAIN_CONFIG, SUPERCHAIN_CONFIG_PROXY_ADMIN)
-                    )
-                );
-                require(ok1, "OPCMUpgradeSuperchainConfigV500: Delegatecall failed in _build.");
-            }
-        }
+        // @dev: Superchain config will be upgraded in OPCM.upgrade()
+        // {
+        //     string memory current = SUPERCHAIN_CONFIG.version();
+        //     address targetImpl = IOPContractsManager(OPCM_TARGETS[0]).implementations().superchainConfigImpl;
+        //     string memory target = ISuperchainConfig(targetImpl).version();
+        //     if (keccak256(bytes(current)) != keccak256(bytes(target))) {
+        //         (bool ok1,) = OPCM_TARGETS[0].delegatecall(
+        //             abi.encodeCall(
+        //                 IOPContractManagerV500.upgradeSuperchainConfig,
+        //                 (SUPERCHAIN_CONFIG, SUPERCHAIN_CONFIG_PROXY_ADMIN)
+        //             )
+        //         );
+        //         require(ok1, "OPCMUpgradeSuperchainConfigV500: Delegatecall failed in _build.");
+        //     }
+        // }
 
         SuperchainAddressRegistry.ChainInfo[] memory chains = superchainAddrRegistry.getChains();
         IOPContractsManager.OpChainConfig[] memory opChainConfigs =
@@ -138,19 +141,21 @@ contract OPCMUpgradeV500 is OPCMTaskBase {
 
         // Delegatecall the OPCM.upgrade() function
         (bool ok2,) =
-            OPCM_TARGETS[0].delegatecall(abi.encodeWithSelector(IOPContractsManager.upgrade.selector, opChainConfigs));
+            OPCM_TARGETS[0].delegatecall(abi.encodeWithSelector(IOPContractsManager.upgrade.selector, opChainConfigs, upgrades[chains[0].chainId].upgradeSuperchainConfig));
         require(ok2, "OPCMUpgradeV500: Delegatecall failed in _build.");
     }
 
     /// @notice This method performs all validations and assertions that verify the calls executed as expected.
     function _validate(VmSafe.AccountAccess[] memory, Action[] memory, address) internal view override {
+        // @dev: SUPERCHAIN_CONFIG is CeloSuperchainConfig; actual upgraded is CeloSuperchainConfig.superchainConfig()
+        ISuperchainConfig superchainConfig = IHasSuperchainConfig(address(SUPERCHAIN_CONFIG)).superchainConfig();
         require(
-            EIP1967Helper.getImplementation(address(SUPERCHAIN_CONFIG))
+            EIP1967Helper.getImplementation(address(superchainConfig))
                 == IOPContractsManager(OPCM_TARGETS[0]).implementations().superchainConfigImpl,
             "OPCMUpgradeSuperchainConfigV500: Incorrect SuperchainConfig implementation after upgradeSuperchainConfig"
         );
         require(
-            SUPERCHAIN_CONFIG.version().eq("2.4.0"),
+            superchainConfig.version().eq("2.4.0"),
             "OPCMUpgradeSuperchainConfigV500: Incorrect SuperchainConfig version after upgradeSuperchainConfig"
         );
 

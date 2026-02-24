@@ -4,7 +4,7 @@ pragma solidity 0.8.15;
 import {VmSafe} from "forge-std/Vm.sol";
 import {stdToml} from "forge-std/StdToml.sol";
 import {IGnosisSafe} from "@base-contracts/script/universal/IGnosisSafe.sol";
-import {IStandardValidatorV180} from "@eth-optimism-bedrock/interfaces/L1/IStandardValidator.sol";
+
 import {
     IOptimismPortal2,
     IProxyAdmin,
@@ -180,4 +180,17 @@ contract UniFix is L2TaskBase {
 
     /// @notice Override to return a list of addresses that should not be checked for code length.
     function _getCodeExceptions() internal pure override returns (address[] memory) {}
+}
+
+interface IStandardValidatorV180 {
+    struct InputV180 {
+        address proxyAdmin;
+        address sysCfg;
+        bytes32 absolutePrestate;
+        uint256 l2ChainID;
+    }
+
+    function validate(InputV180 memory _input, bool _allowFailure) external view returns (string memory);
+
+    function disputeGameFactoryVersion() external pure returns (string memory);
 }

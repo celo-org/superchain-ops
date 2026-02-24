@@ -6,7 +6,7 @@ import {
     ISystemConfig,
     IProxyAdmin
 } from "@eth-optimism-bedrock/interfaces/L1/IOPContractsManager.sol";
-import {IStandardValidatorV200} from "@eth-optimism-bedrock/interfaces/L1/IStandardValidator.sol";
+
 import {Claim} from "@eth-optimism-bedrock/src/dispute/lib/Types.sol";
 import {VmSafe} from "forge-std/Vm.sol";
 import {stdToml} from "forge-std/StdToml.sol";
@@ -145,7 +145,7 @@ contract OPCMUpgradeV220toV410 is OPCMTaskBase {
             });
         }
 
-        (bool success1,) = OPCM_V220.delegatecall(abi.encodeCall(IOPContractsManager.upgrade, (opChainConfigs)));
+        (bool success1,) = OPCM_V220.delegatecall(abi.encodeCall(IOPContractsManager.upgrade, (opChainConfigs, false)));
         require(success1, "OPCMUpgradeV220: upgrade call failed in _build.");
 
         // === Validator for U13 ===
@@ -173,7 +173,7 @@ contract OPCMUpgradeV220toV410 is OPCMTaskBase {
             });
         }
 
-        (bool success2,) = OPCM_V300.delegatecall(abi.encodeCall(IOPContractsManager.upgrade, (opChainConfigs)));
+        (bool success2,) = OPCM_V300.delegatecall(abi.encodeCall(IOPContractsManager.upgrade, (opChainConfigs, false)));
         require(success2, "OPCMUpgradeV300: upgrade call failed in _build.");
 
         // === Validator for U14 ===
@@ -233,7 +233,7 @@ contract OPCMUpgradeV220toV410 is OPCMTaskBase {
 
         // Delegatecall the OPCM.upgrade() function
         (bool success4,) =
-            OPCM_V410.delegatecall(abi.encodeWithSelector(IOPContractsManager.upgrade.selector, opChainConfigs));
+            OPCM_V410.delegatecall(abi.encodeWithSelector(IOPContractsManager.upgrade.selector, opChainConfigs, false));
         require(success4, "OPCMUpgradeV410: upgrade call failed in _build.");
     }
 
@@ -290,4 +290,16 @@ interface IStandardValidatorV410 {
     function validate(InputV410 memory _input, bool _allowFailure) external view returns (string memory);
     function mipsVersion() external pure returns (string memory);
     function systemConfigVersion() external pure returns (string memory);
+}
+interface IStandardValidatorV200 {
+    struct InputV200 {
+        address proxyAdmin;
+        address sysCfg;
+        bytes32 absolutePrestate;
+        uint256 l2ChainID;
+    }
+
+    function validate(InputV200 memory _input, bool _allowFailure) external view returns (string memory);
+
+    function disputeGameFactoryVersion() external pure returns (string memory);
 }

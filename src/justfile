@@ -453,7 +453,7 @@ _fetch-safe TASK_DIR_PATH OWNER_SAFE_NAME:
     fi
     echo "${safe}"
 
-# Get signer address and arguments (supports ledger and keystore)
+# Get signer address and arguments (supports private key, keystore, or ledger)
 # Returns: line 1=address, line 2=arguments
 [no-cd]
 _get-signer-args hdPath='0' use_keystore_flag='':
@@ -461,19 +461,21 @@ _get-signer-args hdPath='0' use_keystore_flag='':
     set -euo pipefail
     root_dir=$(git rev-parse --show-toplevel)
     root_just_file="${root_dir}/src/justfile"
-    
-    if [ -z "{{use_keystore_flag}}" ]; then
-        hdpaths="m/44'/60'/{{hdPath}}'/0/0"
-        echo "Using ledger" >&2
-        signer=$(cast wallet address --ledger --mnemonic-derivation-path $hdpaths)
-        signer_args="--ledger --hd-paths $hdpaths"
-    else
+    if [ -n "${PRIVATE_KEY:-}" ]; then
+        echo "Using private key from env" >&2
+        signer=$(cast wallet address --private-key ${PRIVATE_KEY})
+        signer_args="--private-key ${PRIVATE_KEY#0x}"
+    elif [ -n "{{use_keystore_flag}}" ]; then
         echo "Using keystore" >&2
         signer_private_key=$(just --justfile "$root_just_file" _get-keystore-private-key)
         signer=$(cast wallet address --private-key ${signer_private_key})
         signer_args="--private-key ${signer_private_key#0x}"
+    else
+        hdpaths="m/44'/60'/{{hdPath}}'/0/0"
+        echo "Using ledger" >&2
+        signer=$(cast wallet address --ledger --mnemonic-derivation-path $hdpaths)
+        signer_args="--ledger --hd-paths $hdpaths"
     fi
-    
     echo "Signing with: ${signer}" >&2
     echo "${signer}"
     echo "${signer_args}"

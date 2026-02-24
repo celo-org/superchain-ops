@@ -3,10 +3,7 @@ pragma solidity 0.8.15;
 
 import {VmSafe} from "forge-std/Vm.sol";
 import {stdToml} from "forge-std/StdToml.sol";
-import {
-    IDeputyGuardianModule,
-    IOptimismPortal2
-} from "lib/optimism/packages/contracts-bedrock/interfaces/safe/IDeputyGuardianModule.sol";
+import {IOptimismPortal2} from "lib/optimism/packages/contracts-bedrock/interfaces/L1/IOptimismPortal2.sol";
 import {GameType} from "lib/optimism/packages/contracts-bedrock/src/dispute/lib/Types.sol";
 
 import {L2TaskBase} from "src/tasks/types/L2TaskBase.sol";
@@ -62,4 +59,9 @@ contract UpdateRetirementTimestampV200 is L2TaskBase {
 
     /// @notice Override to return a list of addresses that should not be checked for code length.
     function _getCodeExceptions() internal pure override returns (address[] memory) {}
+}
+
+interface IDeputyGuardianModule {
+    function unpause() external;
+    function setRespectedGameType(IOptimismPortal2 _portal, GameType _gameType) external;
 }

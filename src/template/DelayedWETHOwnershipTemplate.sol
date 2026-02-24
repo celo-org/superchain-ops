@@ -29,10 +29,10 @@ contract DelayedWETHOwnershipTemplate is SimpleTaskBase {
     /// @notice Write the calls that you want to execute for the task.
     function _build(address) internal override {
         // Load the DelayedWETH contract.
-        IDelayedWETH delayedWeth = IDelayedWETH(payable(simpleAddrRegistry.get("DelayedWETH")));
+        IOwnableDelayedWETH delayedWeth = IOwnableDelayedWETH(payable(simpleAddrRegistry.get("DelayedWETH")));
 
         // Load the PermissionedDelayedWETH contract.
-        IDelayedWETH permissionedDelayedWeth = IDelayedWETH(payable(simpleAddrRegistry.get("PermissionedDelayedWETH")));
+        IOwnableDelayedWETH permissionedDelayedWeth = IOwnableDelayedWETH(payable(simpleAddrRegistry.get("PermissionedDelayedWETH")));
 
         // Load the address of the ProxyAdmin owner.
         address proxyAdminOwner = simpleAddrRegistry.get("ProxyAdminOwner");
@@ -47,10 +47,10 @@ contract DelayedWETHOwnershipTemplate is SimpleTaskBase {
     /// @notice This method performs all validations and assertions that verify the calls executed as expected.
     function _validate(VmSafe.AccountAccess[] memory, Action[] memory, address) internal view override {
         // Load the DelayedWETH contract.
-        IDelayedWETH delayedWeth = IDelayedWETH(payable(simpleAddrRegistry.get("DelayedWETH")));
+        IOwnableDelayedWETH delayedWeth = IOwnableDelayedWETH(payable(simpleAddrRegistry.get("DelayedWETH")));
 
         // Load the PermissionedDelayedWETH contract.
-        IDelayedWETH permissionedDelayedWeth = IDelayedWETH(payable(simpleAddrRegistry.get("PermissionedDelayedWETH")));
+        IOwnableDelayedWETH permissionedDelayedWeth = IOwnableDelayedWETH(payable(simpleAddrRegistry.get("PermissionedDelayedWETH")));
 
         // Load the address of the ProxyAdmin owner.
         address proxyAdminOwner = simpleAddrRegistry.get("ProxyAdminOwner");
@@ -64,4 +64,9 @@ contract DelayedWETHOwnershipTemplate is SimpleTaskBase {
 
     /// @notice Override to return a list of addresses that should not be checked for code length.
     function _getCodeExceptions() internal pure override returns (address[] memory) {}
+}
+
+interface IOwnableDelayedWETH is IDelayedWETH {
+    function owner() external view returns (address);
+    function transferOwnership(address newOwner) external;
 }

@@ -29,6 +29,7 @@ contract OPCMUpgradeV400 is OPCMTaskBase {
         Claim absolutePrestate;
         uint256 chainId;
         string expectedValidationErrors;
+        bool upgradeSuperchainConfig;
     }
 
     /// @notice Mapping of L2 chain IDs to their respective OPCMUpgrade structs.
@@ -108,7 +109,7 @@ contract OPCMUpgradeV400 is OPCMTaskBase {
 
         // Delegatecall the OPCM.upgrade() function
         (bool success,) =
-            OPCM_TARGETS[0].delegatecall(abi.encodeWithSelector(IOPContractsManager.upgrade.selector, opChainConfigs));
+            OPCM_TARGETS[0].delegatecall(abi.encodeWithSelector(IOPContractsManager.upgrade.selector, opChainConfigs, upgrades[chains[0].chainId].upgradeSuperchainConfig));
         require(success, "OPCMUpgradeV400: Delegatecall failed in _build.");
     }
 

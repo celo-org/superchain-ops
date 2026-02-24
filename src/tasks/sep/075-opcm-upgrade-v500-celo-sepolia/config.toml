@@ -1,0 +1,20 @@
+l2chains = [
+    {name = "Celo Sepolia Testnet", chainId = 11142220}
+]
+
+templateName = "OPCMUpgradeV500"
+
+[[opcmUpgrades]]
+chainId = 11142220
+absolutePrestate = "0x03caa1871bb9fe7f9b11217c245c16e4ded33367df5b3ccb2c6d0a847a217d1b"
+upgradeSuperchainConfig = true
+
+# OVERRIDES-L1PAOMULTISIG: L1 Proxy Admin Owner multisig override detected - mismatch not expected
+# OVERRIDES-CHALLENGER: Challenger address override detected - mismatch not expected
+# PORTAL-CEL-10: Not external superchain - mismatch expected
+# PLDG-10: No valid permissioned game - mismatch not expected
+expectedValidationErrors = "OVERRIDES-L1PAOMULTISIG,OVERRIDES-CHALLENGER,PORTAL-CEL-10,PLDG-10"
+
+[addresses]
+OPCM = "0xed62374196a775f591b9a570ce654d2d21b2f2f1" # Freshly deployed on Sepolia
+StandardValidatorV500 = "0xdab86d2c698580c95b1641a8a7d4bb7589db97e9" # Freshly deployed on Sepolia

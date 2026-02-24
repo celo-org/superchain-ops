@@ -106,7 +106,7 @@ contract OPCMTaskBaseTemplate is OPCMTaskBase {
         // TODO: This may execute the OPCM.upgrade() function or a different OPCM function.
         // We're using the OPCM.upgrade() function as an example here.
         (bool success,) =
-            OPCM_TARGETS[0].delegatecall(abi.encodeWithSelector(IOPContractsManager.upgrade.selector, opChainConfigs));
+            OPCM_TARGETS[0].delegatecall(abi.encodeWithSelector(IOPContractsManager.upgrade.selector, opChainConfigs, false));
         require(success, "OPCMTaskBaseTemplate: Delegatecall failed in _build.");
     }
 

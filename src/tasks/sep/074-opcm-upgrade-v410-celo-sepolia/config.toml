@@ -1,0 +1,19 @@
+l2chains = [
+    {name = "Celo Sepolia Testnet", chainId = 11142220}
+]
+
+templateName = "OPCMUpgradeV410"
+
+[[opcmUpgrades]]
+chainId = 11142220
+absolutePrestate = "0x03eb07101fbdeaf3f04d9fb76526362c1eea2824e4c6e970bdb19675b72e4fc8"
+upgradeSuperchainConfig = true
+
+# MERC20F-20: Proxy admin issue - mismatch not expected
+# PORTAL-CEL-10: Not external superchain - mismatch expected
+# PLDG-10: No valid permissioned game - mismatch not expected
+expectedValidationErrors = "MERC20F-20,PORTAL-CEL-10,PLDG-10"
+
+[addresses]
+OPCM = "0x609b554fcbadb07c7028689708cd975c454b157f" # Freshly deployed on Sepolia
+StandardValidatorV410 = "0x749ad73a067d0bc4fa77f67cac222bd9034759aa" # Freshly deployed on Sepolia

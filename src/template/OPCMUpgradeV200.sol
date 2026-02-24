@@ -6,7 +6,7 @@ import {
     ISystemConfig,
     IProxyAdmin
 } from "@eth-optimism-bedrock/interfaces/L1/IOPContractsManager.sol";
-import {IStandardValidatorV200} from "@eth-optimism-bedrock/interfaces/L1/IStandardValidator.sol";
+
 import {IOPContractsManager} from "lib/optimism/packages/contracts-bedrock/interfaces/L1/IOPContractsManager.sol";
 import {Claim} from "@eth-optimism-bedrock/src/dispute/lib/Types.sol";
 import {VmSafe} from "forge-std/Vm.sol";
@@ -34,6 +34,9 @@ contract OPCMUpgradeV200 is OPCMTaskBase {
 
     /// @notice Mapping of l2 chain IDs to their respective prestates
     mapping(uint256 => Claim) public absolutePrestates;
+
+    /// @notice Celo: upgrade superchain config flag
+    bool public upgradeSuperchainConfig;
 
     /// @notice Returns the storage write permissions
     function _taskStorageWrites() internal view virtual override returns (string[] memory) {
@@ -66,6 +69,9 @@ contract OPCMUpgradeV200 is OPCMTaskBase {
             absolutePrestates[upgrades[i].chainId] = upgrades[i].absolutePrestate;
         }
 
+        // Celo: parse flag for upgrading superchain config
+        upgradeSuperchainConfig = abi.decode(tomlContent.parseRaw(".opcmUpgrades.upgradeSuperchainConfig"), (bool));
+
         address OPCM = tomlContent.readAddress(".addresses.OPCM");
         OPCM_TARGETS.push(OPCM);
         require(IOPContractsManager(OPCM).version().eq("1.6.0"), "Incorrect OPCM");
@@ -91,7 +97,7 @@ contract OPCMUpgradeV200 is OPCMTaskBase {
             });
         }
 
-        (bool success,) = OPCM_TARGETS[0].delegatecall(abi.encodeCall(IOPContractsManager.upgrade, (opChainConfigs)));
+        (bool success,) = OPCM_TARGETS[0].delegatecall(abi.encodeCall(IOPContractsManager.upgrade, (opChainConfigs, upgradeSuperchainConfig)));
         require(success, "OPCMUpgradeV200: upgrade call failed in _build.");
     }
 
@@ -157,10 +163,26 @@ contract OPCMUpgradeV200 is OPCMTaskBase {
                 "PROXYA-10,DF-30,PDDG-DWETH-30,PDDG-ANCHORP-40,PDDG-120,PLDG-DWETH-30,PLDG-ANCHORP-40";
             string memory expectedErrors_130 =
                 "PROXYA-10,DF-30,PDDG-DWETH-30,PDDG-ANCHORP-40,PLDG-DWETH-30,PLDG-ANCHORP-40";
+
+            // Celo testnet errors
+            // SYSCON-20 - gas limit on SystemConfigProxy is now 30M, but can be set by owner to 60M
+            // PORTAL-CEL-10 - expected validation error on testnets -> SuperchainConfig is not external one
+            // PDDG-DWETH-30 - PermissionedDelayedWeth owner is not l1PAOMultisig (SystemOwnerSafe) - it is set now to EOA (22eaf69162ae49605441229edbef7d9fc5f4f094)
+            // PDDG-ANCHORP-40 / PLDG-ANCHORP-40 - dispute game AnchorStateRegistry root validation is ignored for multiple chains above (including OP, Ink, Soneium)
+            string memory celoExpectedErrors_420 = "SYSCON-20,PORTAL-CEL-10,PDDG-DWETH-30,PDDG-ANCHORP-40,PLDG-ANCHORP-40";
+
+            // Celo mainnet errors
+            // SYSCON-20 - gas limit on SystemConfigProxy is now 30M, but can be set by owner to 60M
+            // PORTAL-60 - expected validation error on mainnet -> SuperchainConfig is external one (owned by Optimism)
+            // PDDG-DWETH-30 - PermissionedDelayedWeth owner is not l1PAOMultisig (SystemOwnerSafe) - it is set now to EOA (22eaf69162ae49605441229edbef7d9fc5f4f094)
+            // PDDG-ANCHORP-40 / PLDG-ANCHORP-40 - dispute game AnchorStateRegistry root validation is ignored for multiple chains above (including OP, Ink, Soneium)
+            string memory celoExpectedErrors_42220 = "SYSCON-20,PORTAL-60,PDDG-DWETH-30,PDDG-ANCHORP-40,PLDG-ANCHORP-40";
+            
             require(
                 reasons.eq(expectedErrors_11155420) || reasons.eq(expectedErrors_84532) || reasons.eq(expectedErrors_10)
                     || reasons.eq(expectedErrors_1868) || reasons.eq(expectedErrors_57073)
-                    || reasons.eq(expectedErrors_1301) || reasons.eq(expectedErrors_130),
+                    || reasons.eq(expectedErrors_1301) || reasons.eq(expectedErrors_130)
+                    || reasons.eq(celoExpectedErrors_420) || reasons.eq(celoExpectedErrors_42220),
                 string.concat("Unexpected errors: ", reasons)
             );
         }
@@ -168,4 +190,17 @@ contract OPCMUpgradeV200 is OPCMTaskBase {
 
     /// @notice no code exceptions for this template
     function _getCodeExceptions() internal view virtual override returns (address[] memory) {}
+}
+
+interface IStandardValidatorV200 {
+    struct InputV200 {
+        address proxyAdmin;
+        address sysCfg;
+        bytes32 absolutePrestate;
+        uint256 l2ChainID;
+    }
+
+    function validate(InputV200 memory _input, bool _allowFailure) external view returns (string memory);
+
+    function disputeGameFactoryVersion() external pure returns (string memory);
 }
