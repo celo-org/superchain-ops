@@ -1,0 +1,29 @@
+l2chains = [
+    {name = "Celo Chaos Testnet", chainId = 11162320}
+]
+
+fallbackAddressesJsonPath = "src/tasks/sep/077-opcm-upgrade-v500-celo-chaos/addresses.json"
+allowOverwrite = ["SuperchainConfig"]
+
+templateName = "OPCMUpgradeV500"
+
+[[opcmUpgrades]]
+chainId = 11162320
+absolutePrestate = "0x03caa1871bb9fe7f9b11217c245c16e4ded33367df5b3ccb2c6d0a847a217d1b"
+upgradeSuperchainConfig = true
+
+# OVERRIDES-L1PAOMULTISIG: L1 Proxy Admin Owner multisig override detected - mismatch not expected
+# OVERRIDES-CHALLENGER: Challenger address override detected - mismatch not expected
+# SYSCON-CEL-10 - mismatch not expected
+# SYSCON-CEL-30 - mismatch not expected
+# PORTAL-CEL-10: Not external superchain - mismatch expected
+# PDDG-80 - mismatch not expected
+# PDDG-110 - mismatch not expected
+# PDDG-PIMGO-20 - mismatch not expected
+# PLDG-10: No valid permissioned game - mismatch not expected
+expectedValidationErrors = "OVERRIDES-L1PAOMULTISIG,OVERRIDES-CHALLENGER,SYSCON-CEL-10,SYSCON-CEL-30,PORTAL-CEL-10,PDDG-80,PDDG-110,PDDG-PIMGO-20,PLDG-10"
+
+[addresses]
+OPCM = "0xf64f78a752fe1b459e697b04d10332da6a248014" # Freshly deployed on Sepolia
+StandardValidatorV500 = "0xa3446426229bbc645d94bbddfbf60e4974cfbc92" # Freshly deployed on Sepolia
+SuperchainConfig = "0x852A5763dA3Fdf51a8b816E02b91A054904Bd8B0"

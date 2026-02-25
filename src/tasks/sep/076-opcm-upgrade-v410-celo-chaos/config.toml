@@ -1,0 +1,28 @@
+l2chains = [
+    {name = "Celo Chaos Testnet", chainId = 11162320}
+]
+
+fallbackAddressesJsonPath = "src/tasks/sep/076-opcm-upgrade-v410-celo-chaos/addresses.json"
+allowOverwrite = ["SuperchainConfig"]
+
+templateName = "OPCMUpgradeV410"
+
+[[opcmUpgrades]]
+chainId = 11162320
+absolutePrestate = "0x03eb07101fbdeaf3f04d9fb76526362c1eea2824e4c6e970bdb19675b72e4fc8"
+upgradeSuperchainConfig = true
+
+# SYSCON-CEL-10 - mismatch not expected
+# SYSCON-CEL-30 - mismatch not expected
+# MERC20F-20 - mismatch not expected
+# PORTAL-CEL-10: Not external superchain - mismatch expected
+# PDDG-80 - mismatch not expected
+# PDDG-110 - mismatch not expected
+# PDDG-PIMGO-20 - mismatch not expected
+# PLDG-10: No valid permissioned game - mismatch not expected
+expectedValidationErrors = "SYSCON-CEL-10,SYSCON-CEL-30,MERC20F-20,PORTAL-CEL-10,PDDG-80,PDDG-110,PDDG-PIMGO-20,PLDG-10"
+
+[addresses]
+OPCM = "0xdfd32f59aa9d2b01997c44a05eb955bbd3bbbaf0" # Freshly deployed on Sepolia
+StandardValidatorV410 = "0xd0495de38d1d11bd33408bebd030ac739ad0ad5a" # Freshly deployed on Sepolia
+SuperchainConfig = "0x852A5763dA3Fdf51a8b816E02b91A054904Bd8B0"
