@@ -41,7 +41,7 @@ contract OPCMUpgradeV410 is OPCMTaskBase {
     /// @notice Returns the storage write permissions required for this task. This is an array of
     /// contract names that are expected to be written to during the execution of the task.
     function _taskStorageWrites() internal pure virtual override returns (string[] memory) {
-        string[] memory storageWrites = new string[](10);
+        string[] memory storageWrites = new string[](11);
         storageWrites[0] = "ProxyAdminOwner";
         storageWrites[1] = "DisputeGameFactoryProxy";
         storageWrites[2] = "SystemConfigProxy";
@@ -52,6 +52,7 @@ contract OPCMUpgradeV410 is OPCMTaskBase {
         storageWrites[7] = "L1ERC721BridgeProxy";
         storageWrites[8] = "AnchorStateRegistryProxy";
         storageWrites[9] = "SuperchainConfig";
+        storageWrites[10] = "CeloSuperchainConfig";
         return storageWrites;
     }
 

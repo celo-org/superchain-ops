@@ -12,18 +12,18 @@ chainId = 11162320
 absolutePrestate = "0x03caa1871bb9fe7f9b11217c245c16e4ded33367df5b3ccb2c6d0a847a217d1b"
 upgradeSuperchainConfig = true
 
-# OVERRIDES-L1PAOMULTISIG: L1 Proxy Admin Owner multisig override detected - mismatch not expected
-# OVERRIDES-CHALLENGER: Challenger address override detected - mismatch not expected
-# SYSCON-CEL-10 - mismatch not expected
-# SYSCON-CEL-30 - mismatch not expected
+# OVERRIDES-L1PAOMULTISIG: Celo uses own ProxyAdmin owner - mismatch expected
+# OVERRIDES-CHALLENGER: Celo uses own Challenger - mismatch expected
+# SYSCON-CEL-10: CGT is not one from sepolia - mismatch expected
+# SYSCON-CEL-30: CGT name is not one from sepolia - mismatch expected
 # PORTAL-CEL-10: Not external superchain - mismatch expected
-# PDDG-80 - mismatch not expected
-# PDDG-110 - mismatch not expected
-# PDDG-PIMGO-20 - mismatch not expected
-# PLDG-10: No valid permissioned game - mismatch not expected
+# PDDG-80: Clock extension != 10800 - mismatch expected
+# PDDG-110: Max clock duration != 302400 - mismatch expected
+# PDDG-PIMGO-20: Challenge period != 86400 - mismatch expected
+# PLDG-10: No valid permissionless game - mismatch expected
 expectedValidationErrors = "OVERRIDES-L1PAOMULTISIG,OVERRIDES-CHALLENGER,SYSCON-CEL-10,SYSCON-CEL-30,PORTAL-CEL-10,PDDG-80,PDDG-110,PDDG-PIMGO-20,PLDG-10"
 
 [addresses]
-OPCM = "0xf64f78a752fe1b459e697b04d10332da6a248014" # Freshly deployed on Sepolia
-StandardValidatorV500 = "0xa3446426229bbc645d94bbddfbf60e4974cfbc92" # Freshly deployed on Sepolia
-SuperchainConfig = "0x852A5763dA3Fdf51a8b816E02b91A054904Bd8B0"
+OPCM = "0x7b97900daef7de291cc3e542aea13d64ccb128c5" # Freshly deployed on Sepolia
+StandardValidatorV500 = "0x3a348254db46ad110dfa1bba2ee07dd8d457d081" # Freshly deployed on Sepolia
+SuperchainConfig = "0x7801D0a005d13CB66f8113BC28cb2640D8f44A6F"

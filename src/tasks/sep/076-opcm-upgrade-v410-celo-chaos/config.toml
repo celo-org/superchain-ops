@@ -12,17 +12,19 @@ chainId = 11162320
 absolutePrestate = "0x03eb07101fbdeaf3f04d9fb76526362c1eea2824e4c6e970bdb19675b72e4fc8"
 upgradeSuperchainConfig = true
 
-# SYSCON-CEL-10 - mismatch not expected
-# SYSCON-CEL-30 - mismatch not expected
-# MERC20F-20 - mismatch not expected
+# SYSCON-CEL-10: CGT is not one from sepolia - mismatch expected
+# SYSCON-CEL-30: CGT name is not one from sepolia - mismatch expected
+# MERC20F-20: Factory impl not upgraded by v4.1.0 - mismatch expected
 # PORTAL-CEL-10: Not external superchain - mismatch expected
-# PDDG-80 - mismatch not expected
-# PDDG-110 - mismatch not expected
-# PDDG-PIMGO-20 - mismatch not expected
-# PLDG-10: No valid permissioned game - mismatch not expected
+# PDDG-80: Clock extension != 10800 - mismatch expected
+# PDDG-110: Max clock duration != 302400 - mismatch expected
+# PDDG-PIMGO-20: Challenge period != 86400 - mismatch expected
+# PLDG-10: No valid permissionless game - mismatch expected
 expectedValidationErrors = "SYSCON-CEL-10,SYSCON-CEL-30,MERC20F-20,PORTAL-CEL-10,PDDG-80,PDDG-110,PDDG-PIMGO-20,PLDG-10"
 
 [addresses]
-OPCM = "0xdfd32f59aa9d2b01997c44a05eb955bbd3bbbaf0" # Freshly deployed on Sepolia
-StandardValidatorV410 = "0xd0495de38d1d11bd33408bebd030ac739ad0ad5a" # Freshly deployed on Sepolia
-SuperchainConfig = "0x852A5763dA3Fdf51a8b816E02b91A054904Bd8B0"
+# Actual OPCM used on Chaos: "0x69209aa3d41172cc9c4b8f7a3daefc84ef708d2d"
+OPCM = "0x542644add358769673a7ddcab54d9a09fb67f7ec" # Freshly deployed on Sepolia
+StandardValidatorV410 = "0xfc1b53f69b4969ec3566232dee85f1832546ee85" # Freshly deployed on Sepolia
+SuperchainConfig = "0x7801D0a005d13CB66f8113BC28cb2640D8f44A6F"
+CeloSuperchainConfig = "0xc731E02Cb012e8D6E6f36cfFb05D300E262d34bF"

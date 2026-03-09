@@ -7,7 +7,6 @@ import {
     ISystemConfig,
     IProxyAdmin
 } from "@eth-optimism-bedrock/interfaces/L1/IOPContractsManager.sol";
-import {IHasSuperchainConfig} from "@eth-optimism-bedrock/interfaces/L1/IHasSuperchainConfig.sol";
 import {Claim} from "@eth-optimism-bedrock/src/dispute/lib/Types.sol";
 import {EIP1967Helper} from "@eth-optimism-bedrock/test/mocks/EIP1967Helper.sol";
 import {VmSafe} from "forge-std/Vm.sol";
@@ -147,15 +146,13 @@ contract OPCMUpgradeV500 is OPCMTaskBase {
 
     /// @notice This method performs all validations and assertions that verify the calls executed as expected.
     function _validate(VmSafe.AccountAccess[] memory, Action[] memory, address) internal view override {
-        // @dev: SUPERCHAIN_CONFIG is CeloSuperchainConfig; actual upgraded is CeloSuperchainConfig.superchainConfig()
-        ISuperchainConfig superchainConfig = IHasSuperchainConfig(address(SUPERCHAIN_CONFIG)).superchainConfig();
         require(
-            EIP1967Helper.getImplementation(address(superchainConfig))
+            EIP1967Helper.getImplementation(address(SUPERCHAIN_CONFIG))
                 == IOPContractsManager(OPCM_TARGETS[0]).implementations().superchainConfigImpl,
             "OPCMUpgradeSuperchainConfigV500: Incorrect SuperchainConfig implementation after upgradeSuperchainConfig"
         );
         require(
-            superchainConfig.version().eq("2.4.0"),
+            SUPERCHAIN_CONFIG.version().eq("2.4.0"),
             "OPCMUpgradeSuperchainConfigV500: Incorrect SuperchainConfig version after upgradeSuperchainConfig"
         );
 
