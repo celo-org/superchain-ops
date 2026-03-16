@@ -6,6 +6,7 @@ import {
     ISystemConfig,
     IProxyAdmin
 } from "@eth-optimism-bedrock/interfaces/L1/IOPContractsManager.sol";
+import {ICeloSuperchainConfig} from "@eth-optimism-bedrock/interfaces/L1/ICeloSuperchainConfig.sol";
 import {Claim} from "@eth-optimism-bedrock/src/dispute/lib/Types.sol";
 import {VmSafe} from "forge-std/Vm.sol";
 import {stdToml} from "forge-std/StdToml.sol";
@@ -66,6 +67,22 @@ contract OPCMUpgradeV410 is OPCMTaskBase {
     function _templateSetup(string memory _taskConfigFilePath, address _rootSafe) internal override {
         super._templateSetup(_taskConfigFilePath, _rootSafe);
         string memory tomlContent = vm.readFile(_taskConfigFilePath);
+
+        SuperchainAddressRegistry.ChainInfo[] memory chains = superchainAddrRegistry.getChains();
+        uint256 anyChainId = chains.length > 0 ? chains[0].chainId : 0;
+        address celoSuperchainConfig = superchainAddrRegistry.getAddress("SuperchainConfig", anyChainId);
+        require(celoSuperchainConfig != address(0), "CeloSuperchainConfig not found in registry");
+        require(celoSuperchainConfig.code.length > 0, "CeloSuperchainConfig has no code");
+        vm.label(celoSuperchainConfig, "CeloSuperchainConfig");
+
+        for (uint256 i = 0; i < chains.length; i++) {
+            superchainAddrRegistry.saveAddress("CeloSuperchainConfig", chains[i], celoSuperchainConfig);
+        }
+
+        address superchainConfig = ICeloSuperchainConfig(celoSuperchainConfig).superchainConfig();
+        require(superchainConfig != address(0), "SuperchainConfig not found via CeloSuperchainConfig");
+        require(superchainConfig.code.length > 0, "SuperchainConfig has no code");
+        vm.label(superchainConfig, "SuperchainConfig");
 
         // OPCMUpgrade struct is used to store the absolutePrestate and expectedValidationErrors for each l2 chain.
         OPCMUpgrade[] memory _upgrades = abi.decode(tomlContent.parseRaw(".opcmUpgrades"), (OPCMUpgrade[]));

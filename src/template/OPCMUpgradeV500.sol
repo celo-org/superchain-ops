@@ -7,6 +7,7 @@ import {
     ISystemConfig,
     IProxyAdmin
 } from "@eth-optimism-bedrock/interfaces/L1/IOPContractsManager.sol";
+import {ICeloSuperchainConfig} from "@eth-optimism-bedrock/interfaces/L1/ICeloSuperchainConfig.sol";
 import {Claim} from "@eth-optimism-bedrock/src/dispute/lib/Types.sol";
 import {EIP1967Helper} from "@eth-optimism-bedrock/test/mocks/EIP1967Helper.sol";
 import {VmSafe} from "forge-std/Vm.sol";
@@ -71,12 +72,17 @@ contract OPCMUpgradeV500 is OPCMTaskBase {
         super._templateSetup(taskConfigFilePath, rootSafe);
         string memory tomlContent = vm.readFile(taskConfigFilePath);
 
-        // Fetch SuperchainConfig from the registry
         SuperchainAddressRegistry.ChainInfo[] memory chains = superchainAddrRegistry.getChains();
         uint256 anyChainId = chains.length > 0 ? chains[0].chainId : 0;
-        SUPERCHAIN_CONFIG = ISuperchainConfig(superchainAddrRegistry.getAddress("SuperchainConfig", anyChainId));
-        require(address(SUPERCHAIN_CONFIG) != address(0), "SuperchainConfig not found in registry");
-        require(address(SUPERCHAIN_CONFIG).code.length > 0, "SuperchainConfig has no code");
+        address celoSuperchainConfig = superchainAddrRegistry.getAddress("SuperchainConfig", anyChainId);
+        require(celoSuperchainConfig != address(0), "CeloSuperchainConfig not found in registry");
+        require(celoSuperchainConfig.code.length > 0, "CeloSuperchainConfig has no code");
+        vm.label(celoSuperchainConfig, "CeloSuperchainConfig");
+
+        address superchainConfig = ICeloSuperchainConfig(celoSuperchainConfig).superchainConfig();
+        require(superchainConfig != address(0), "SuperchainConfig not found via CeloSuperchainConfig");
+        require(superchainConfig.code.length > 0, "SuperchainConfig has no code");
+        SUPERCHAIN_CONFIG = ISuperchainConfig(superchainConfig);
         vm.label(address(SUPERCHAIN_CONFIG), "SuperchainConfig");
 
         // Derive SuperchainConfig ProxyAdmin on-chain via EIP-1967 admin slot.

@@ -9,11 +9,27 @@ chainId = 11142220
 absolutePrestate = "0x03eb07101fbdeaf3f04d9fb76526362c1eea2824e4c6e970bdb19675b72e4fc8"
 upgradeSuperchainConfig = true
 
-# MERC20F-20: Proxy admin issue - mismatch not expected
-# PORTAL-CEL-10: Not external superchain - mismatch expected
-# PLDG-10: No valid permissioned game - mismatch not expected
-expectedValidationErrors = "MERC20F-20,PORTAL-CEL-10,PLDG-10"
+# MERC20F-20: Factory impl not upgraded by v4.1.0 - mismatch expected
+# PLDG-10: No valid permissionless game - mismatch expected
+expectedValidationErrors = "MERC20F-20,PLDG-10"
 
 [addresses]
-OPCM = "0x609b554fcbadb07c7028689708cd975c454b157f" # Freshly deployed on Sepolia
-StandardValidatorV410 = "0x749ad73a067d0bc4fa77f67cac222bd9034759aa" # Freshly deployed on Sepolia
+OPCM = "0xdd1937e6c12c78b4330e341930f555ad706eddae" # Freshly deployed on Sepolia
+StandardValidatorV410 = "0xe9e187a96f0e7dc099b057fa9104741dbeb82fa1" # Freshly deployed on Sepolia
+ProxyAdminOwner = "0x009A6Ac23EeBe98488ED28A52af69Bf46F1C18cb" # 2-of-2 parent Safe
+ChildSafe1 = "0x769b480A8036873a2a5EB01FE39278e5Ab78Bb27" # 1-of-2 Safe, owner of parent
+ChildSafe2 = "0x3b00043E8C82006fbE5f56b47F9889a04c20c5d6" # 1-of-2 Safe, owner of parent
+
+[stateOverrides]
+# ChildSafe1 nonce (slot 5)
+"0x769b480A8036873a2a5EB01FE39278e5Ab78Bb27" = [
+    { key = "0x0000000000000000000000000000000000000000000000000000000000000005", value = 0 }
+]
+# ChildSafe2 nonce (slot 5)
+"0x3b00043E8C82006fbE5f56b47F9889a04c20c5d6" = [
+    { key = "0x0000000000000000000000000000000000000000000000000000000000000005", value = 0 }
+]
+# Parent Safe (ProxyAdminOwner) nonce (slot 5)
+"0x009A6Ac23EeBe98488ED28A52af69Bf46F1C18cb" = [
+    { key = "0x0000000000000000000000000000000000000000000000000000000000000005", value = 0 }
+]

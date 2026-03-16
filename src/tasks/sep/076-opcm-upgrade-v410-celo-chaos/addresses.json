@@ -13,7 +13,7 @@
     "AddressManager": "0xe79a9c96f2ea3340add851f83dbfdc2ff4ceb838",
     "L1ERC721BridgeProxy": "0x493ec8a8956d1239d01450a6adb6f7f091d2a81f",
     "OptimismMintableERC20FactoryProxy": "0x92fa5b9a26580b7ecc495ffab4cbc0d995be5b5a",
-    "SuperchainConfig": "0x7801D0a005d13CB66f8113BC28cb2640D8f44A6F",
+    "SuperchainConfig": "0xc731E02Cb012e8D6E6f36cfFb05D300E262d34bF",
     "PermissionedDisputeGame": "0xcFeCeBACCF68662ad5bE900a28D338730b091F27",
     "Challenger": "0x240531edDDE480d09271cc8f8113c60fbCB3785d",
     "Proposer": "0xAD7dFA5eE207D0E9b903d9c2D0a51D5320BE9Ca4",

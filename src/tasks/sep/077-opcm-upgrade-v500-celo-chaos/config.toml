@@ -3,7 +3,6 @@ l2chains = [
 ]
 
 fallbackAddressesJsonPath = "src/tasks/sep/077-opcm-upgrade-v500-celo-chaos/addresses.json"
-allowOverwrite = ["SuperchainConfig"]
 
 templateName = "OPCMUpgradeV500"
 
@@ -26,4 +25,3 @@ expectedValidationErrors = "OVERRIDES-L1PAOMULTISIG,OVERRIDES-CHALLENGER,SYSCON-
 [addresses]
 OPCM = "0x7b97900daef7de291cc3e542aea13d64ccb128c5" # Freshly deployed on Sepolia
 StandardValidatorV500 = "0x3a348254db46ad110dfa1bba2ee07dd8d457d081" # Freshly deployed on Sepolia
-SuperchainConfig = "0x7801D0a005d13CB66f8113BC28cb2640D8f44A6F"
