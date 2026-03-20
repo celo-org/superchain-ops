@@ -1,0 +1,35 @@
+l2chains = [
+    {name = "Celo Mainnet", chainId = 42220}
+]
+
+templateName = "OPCMUpgradeV500"
+
+[[opcmUpgrades]]
+chainId = 42220
+absolutePrestate = "0x03caa1871bb9fe7f9b11217c245c16e4ded33367df5b3ccb2c6d0a847a217d1b"
+upgradeSuperchainConfig = false
+
+# OVERRIDES-L1PAOMULTISIG: L1 Proxy Admin Owner multisig override detected - mismatch expected
+# OVERRIDES-CHALLENGER: Challenger address override detected - mismatch expected
+expectedValidationErrors = "OVERRIDES-L1PAOMULTISIG,OVERRIDES-CHALLENGER"
+
+[addresses]
+OPCM = "0x503c51b8de2bc78d5f83c179b786b2aa1c454635" # Freshly deployed on Mainnet
+StandardValidatorV500 = "0x49b8d11ec3ffb2fe0f5b25e895a5953439e335fb" # Freshly deployed on Mainnet
+ProxyAdminOwner = "0x4092A77bAF58fef0309452cEaCb09221e556E112" # 2-of-2 parent Safe
+ChildSafe1 = "0x9Eb44Da23433b5cAA1c87e35594D15FcEb08D34d" # 1-of-2 Safe, owner of parent
+ChildSafe2 = "0xC03172263409584f7860C25B6eB4985f0f6F4636" # 1-of-2 Safe, owner of parent
+
+[stateOverrides]
+# ChildSafe1 nonce (slot 5) - current mainnet nonce: 25
+"0x9Eb44Da23433b5cAA1c87e35594D15FcEb08D34d" = [
+    { key = "0x0000000000000000000000000000000000000000000000000000000000000005", value = 25 }
+]
+# ChildSafe2 nonce (slot 5) - current mainnet nonce: 27
+"0xC03172263409584f7860C25B6eB4985f0f6F4636" = [
+    { key = "0x0000000000000000000000000000000000000000000000000000000000000005", value = 27 }
+]
+# Parent Safe (ProxyAdminOwner) nonce (slot 5) - current mainnet nonce: 27
+"0x4092A77bAF58fef0309452cEaCb09221e556E112" = [
+    { key = "0x0000000000000000000000000000000000000000000000000000000000000005", value = 27 }
+]
