@@ -1,9 +1,8 @@
 #!/bin/bash
 set -euo pipefail
 
-# Simulates a task given a path to the task directory. 
-# This function will determine if the task is nested or not then
-# simulate it with the appropriate justfile. 
+export LOCAL_RPC_URL="${LOCAL_RPC_URL:-http://127.0.0.1:8545}"
+
 simulate_task() {
     task=$1
     nested_safe_name_depth_1=$2

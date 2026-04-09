@@ -1,6 +1,7 @@
 export TASK_PATH := invocation_directory()
 export ZERO_ADDRESS := "0x0000000000000000000000000000000000000000"
 export signatures := env_var_or_default('SIGNATURES', '')
+export LOCAL_RPC_URL := env_var_or_default('LOCAL_RPC_URL', 'http://127.0.0.1:8545')
 
 forge_fork_retries := "10"
 forge_fork_retry_backoff := "1000"

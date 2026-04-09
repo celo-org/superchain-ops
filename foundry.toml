@@ -1,4 +1,5 @@
 [profile.default]
+script_execution_protection = false
 src = "src"
 out = "out"
 libs = ["lib"]
@@ -34,8 +35,8 @@ opSepolia = "https://ci-sepolia-l2.optimism.io"
 opMainnet = "https://mainnet.optimism.io" # We eventually need a CI L2 RPC URL for this.
 
 [profile.default.rpc_endpoints]
-localhost = "http://127.0.0.1:8545"
-mainnet = "http://127.0.0.1:8545"
-sepolia = "http://127.0.0.1:8545"
-opSepolia = "http://127.0.0.1:8545"
-opMainnet = "http://127.0.0.1:8545"
+localhost = "${LOCAL_RPC_URL}"
+mainnet = "${LOCAL_RPC_URL}"
+sepolia = "${LOCAL_RPC_URL}"
+opSepolia = "${LOCAL_RPC_URL}"
+opMainnet = "${LOCAL_RPC_URL}"
